@@ -17,7 +17,7 @@ LIB_FLAGS = -L $(LIB_X_DIR) -L $(LIB_FT_DIR) -ltrue_mlx -lft
 
 FRAMEWORKS = -framework OpenGL -framework AppKit
 
-C_FILES_LIST = main.c
+C_FILES_LIST = main.c draw_simple_line.c
 
 C_FILES	= $(addprefix $(C_DIR), $(C_FILES_LIST))
 
@@ -27,8 +27,6 @@ O_FILES	= $(addprefix $(O_DIR), $(O_FILES_LIST))
 .PHONY: clean fclean
 
 all: $(NAME)
-
-#$(LIB_X_FILE) $(LIB_FLAGS)
 
 $(NAME): $(LIB_FT_FILE) $(LIB_X_FILE) $(O_DIR) $(O_FILES)
 	@clang $(FLAGS) -o $(NAME) $(O_FILES) $(LIB_FLAGS) $(FRAMEWORKS)
