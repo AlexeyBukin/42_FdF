@@ -18,7 +18,7 @@ LIB_FLAGS = -L $(LIB_X_DIR) -L $(LIB_FT_DIR) -ltrue_mlx -lft
 FRAMEWORKS = -framework OpenGL -framework AppKit
 
 #ls *.c
-C_FILES_LIST = main.c draw_simple_line.c printables.c test.c
+C_FILES_LIST = main.c draw_simple_line.c printables.c test.c re_draw.c convert_coords.c
 
 
 
