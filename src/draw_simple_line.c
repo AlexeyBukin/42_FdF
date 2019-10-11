@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:29 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/11 00:18:35 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/11 20:38:23 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	draw_simple_line_y(void *m_p, void *w_p, t_point p1, t_point p2)
 	}
 }
 
-void		draw_simple_line(void *mlx_p, void *win_p, t_point p1, t_point p2)
+void		draw_simple_line_by_points(void *mlx_p, void *win_p, t_point p1, t_point p2)
 {
 	double k;
 
@@ -79,4 +79,15 @@ void		draw_simple_line(void *mlx_p, void *win_p, t_point p1, t_point p2)
 		draw_simple_line_y(mlx_p, win_p, p1, p2);
 	else
 		draw_simple_line_x(mlx_p, win_p, p1, p2);
+}
+
+void		draw_simple_line(void *mlx_p, void *win_p, t_line line)
+{
+	double k;
+
+	k = ((line.p2->x) == (line.p1->x)) ? 1 : ((line.p2->y) - (line.p1->y) + 0.0) / ((line.p2->x) - (line.p1->x) + 0.0);
+	if (ft_abs(k) >= 1)
+		draw_simple_line_y(mlx_p, win_p, *(line.p1), *(line.p2));
+	else
+		draw_simple_line_x(mlx_p, win_p, *(line.p1), *(line.p2));
 }
