@@ -29,4 +29,4 @@ clean:
 fclean:
 	@rm -f $(NOM)
 
-re: clean all
+re: fclean all
