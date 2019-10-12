@@ -16,9 +16,6 @@
 #define MASK_GREEN 0x0000FF00
 #define MASK_BLUE  0x000000FF
 
-#define MAX_BLEND 255
-#define MIN_BLEND 0
-
 int		blend(int c1, int c2, unsigned char val)
 {
 	int	t;
