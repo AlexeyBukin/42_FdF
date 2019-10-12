@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 02:26:45 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/12 04:59:26 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,9 @@ void	draw_stuff(void *mlx_ptr, void *win_ptr, double va, double ha, int scale)
 	draw_simple_line(mlx_ptr, win_ptr, w2);
 	draw_simple_line(mlx_ptr, win_ptr, w3);
 	draw_simple_line(mlx_ptr, win_ptr, w4);
+//	///0x00888080
+//	t_point grey_dot = {300, 300, 0, 0x00AAAAAA};
+//	t_point red_dot_2 = {350, 350, 0, 0x00FFFFFF};
+//	t_line blend_line = {&grey_dot, &red_dot_2};
+//	draw_simple_line(mlx_ptr, win_ptr, blend_line);
 }
