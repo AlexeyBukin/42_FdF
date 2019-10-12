@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 05:01:31 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/12 05:46:07 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,6 @@
 #define SCALE_MAX 100
 #define SCALE_DELTA 1
 
-#define MASK_RED   0x00FF0000
-#define MASK_GREEN 0x0000FF00
-#define MASK_BLUE  0x000000FF
-
-
-
 typedef struct	s_data
 {
 	void		*mlx_ptr;
@@ -50,58 +44,11 @@ typedef struct	s_data
 	int			scale;
 }				t_data;
 
-int		blend(int c1, int c2, unsigned char val)
-{
-	int	t;
-	int	r;
-	int	g;
-	int	b;
-
-	t = (c2 & MASK_RED) >> 16;
-	r =  t + (((c1 & MASK_RED) >> 16) - t) * (val + 0.0) / MAX_BLEND;
-
-	t = (c2 & MASK_GREEN) >> 8;
-	g =  t + (((c1 & MASK_GREEN) >> 8) - t) * (val + 0.0) / MAX_BLEND;
-
-	t = (c2 & MASK_BLUE);
-	b =  t + ((c1 & MASK_BLUE) - t) * (val + 0.0) / MAX_BLEND;
-
-	t = ((int)(r << 16)) + ((int)(g << 8)) + b;
-	return (t);
-}
-
-double	clamp(double val, double min, double max)
-{
-	if (val < min)
-	{
-		return (min);
-	}
-	if (val > max)
-	{
-		return (max);
-	}
-	return (val);
-}
-
-double	cycle(double val, double min, double max)
-{
-	while (val > max)
-	{
-		val = min + (val - max);
-	}
-	while (val < min)
-	{
-		val = max - (min - val);
-	}
-	return (val);
-}
-
 int		key_pressed(int key, void *data)
 {
 	t_data *d = (t_data *)data;
 	//t_data d = param;
-
-	printf("key pressed: %d (\'%c\')\n", key, (char) key);
+	//printf("key pressed: %d (\'%c\')\n", key, (char) key);
 	//printf("param: %d\n", b);
 	if (key >= LEFT_KEY && key <= UP_KEY)
 	{
@@ -113,10 +60,8 @@ int		key_pressed(int key, void *data)
 			d->va = clamp(d->va + VA_DELTA, VA_MIN, VA_MAX);
 		else if (key == DOWN_KEY)
 			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
-
-		printf("va: %f, ha: %f\n",  d->va, d->ha);
-
-		re_draw(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		mlx_clear_window(d->mlx_ptr, d->win_ptr);
+		draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
 		return (0);
 	}
 	if (key == R_KEY || key == SHIFT_KEY || key == CTRL_KEY)
@@ -125,13 +70,10 @@ int		key_pressed(int key, void *data)
 			d->scale = clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		else if (key == CTRL_KEY)
 			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
-
-		printf("scale: %d\n",  d->scale);
-
-		re_draw(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		mlx_clear_window(d->mlx_ptr, d->win_ptr);
+		draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
 		return (0);
 	}
-	//if ()
 	if (key == ESC_KEY)
 	{
 		printf("esc pressed!\n");
@@ -144,19 +86,12 @@ int		main()
 {
 	void * mlx_ptr = mlx_init();
 	void * win_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF");
-	//void * win2_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF - 2");
-	//win2_ptr = 0;
-//	double vertical_angle = M_PI / 4;
-//	double horizontal_angle = M_PI / 8;
 
 	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
 
 	mlx_key_hook(win_ptr, key_pressed, (void *) &d);
 
 	draw_stuff(mlx_ptr, win_ptr, d.va, d.ha, d.scale);
-
-	mlx_clear_window(mlx_ptr, win_ptr);
-	//mlx_destroy_window(mlx_ptr, win_ptr);
 
 	mlx_loop(mlx_ptr);
 	return (0);

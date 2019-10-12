@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 04:46:18 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/12 05:41:59 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 #include "libft.h"
 #include <stdio.h>
 #include <math.h>
-
-#define MAX_BLEND 255
-#define MIN_BLEND 0
 
 typedef struct		s_point
 {
@@ -35,22 +32,24 @@ typedef struct		s_line
 	t_point			*p2;
 }					t_line;
 
-///nowhere
+///___utilities.c
 int					blend(int c1, int c2, unsigned char val);
+double				clamp(double val, double min, double max);
+double				cycle(double val, double min, double max);
 
-///convert_coords.c
+///___convert_coords.c
 t_point				convert_coords(t_point f,  double vert_angle, double hor_angle, int scale);
 
-///re_draw.c
+///___re_draw.c
 void				re_draw(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
 
-///draw_simple_line.c
+///___draw_simple_line.c
 void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 
-///printables.c
+///___printables.c
 void				print_point(t_point p);
 
-///test.c
+///___test.c
 void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
 
 #endif
