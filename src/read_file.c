@@ -6,26 +6,62 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 01:37:31 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 03:35:28 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+#define MAX_HEIGHT_IN_TILES 20.0
+
 static void		adjust_points(t_point **points, int line_len, int line_num, int max_z)
 {
-	points++;
-	line_len++;
-	line_num++;
-	max_z++;
-	return ;
+	int 	shift_x;
+	int 	shift_y;
+	int 	shared_y;
+	int		i;
+	int 	j;
+
+	shift_x = (line_len % 2 == 1) ? 0 : 1;
+	shift_y = (line_num % 2 == 1) ? 0 : 1;
+
+	i = 0;
+	while (i < line_num)
+	{
+		shared_y = i - (line_num + shift_y);
+		j = 0;
+		while (j < line_len)
+		{
+			points[i][j].x = j - (line_num + shift_x);
+			points[i][j].y = shared_y;
+			points[i][j].z = (int) round(points[i][j].z / max_z * MAX_HEIGHT_IN_TILES);
+			j++;
+		}
+		i++;
+	}
 }
 
-t_point			str_to_point(char *str)
+static t_point	str_to_point(char *str)
 {
-	str++;
-	t_point res = {0, 0, 0, 0};
-	return (res);
+	t_point		point;
+	char		*pointer;
+	int 		height;
+	int 		color;
+
+	color = 0x00FFFFFF;
+	if ((pointer = ft_strchr(str, ',')) != 0)
+	{
+		*pointer = '\0';
+		pointer++;
+		color = atouhi(pointer);
+		color = (color == 0) * 0x00FFFFFF + color;
+	}
+	height = ft_atoi(str);
+	point.x = 0;
+	point.y = 0;
+	point.z = height;
+	point.col = color;
+	return (point);
 }
 
 static t_point	*read_point_line(int fd, int *len, int *max_z)
@@ -36,7 +72,6 @@ static t_point	*read_point_line(int fd, int *len, int *max_z)
 	int 		i;
 
 	line = 0;
-//	gnl = get_next_line(fd, &line);
 	splitted = ft_strsplit(line, ' ');
 
 	if(get_next_line(fd, &line) < 0 || splitted == 0)
@@ -59,7 +94,6 @@ static t_point	*read_point_line(int fd, int *len, int *max_z)
 			*max_z = point_line[i].z;
 		i++;
 	}
-	//point_line[i] = 0;
 
 	free(line);
 	free_lines(splitted);

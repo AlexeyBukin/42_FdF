@@ -27,7 +27,7 @@ C_FILES	= $(addprefix $(C_DIR), $(C_FILES_LIST))
 O_FILES_LIST = $(patsubst %.c, %.o, $(C_FILES_LIST))
 O_FILES	= $(addprefix $(O_DIR), $(O_FILES_LIST))
 
-.PHONY: clean fclean
+.PHONY: clean fclean $(LIB_FT_FILE) $(LIB_X_FILE)
 
 all: $(NAME)
 
@@ -40,9 +40,11 @@ $(O_DIR):
 
 $(LIB_FT_FILE):
 	@make -C $(LIB_FT_DIR)
+	@echo "make: Done building \`libft'."
 
 $(LIB_X_FILE):
 	@make -C $(LIB_X_DIR)
+	@echo "make: Done building \`mlx'."
 
 $(O_DIR)%.o: $(C_DIR)%.c
 	@clang $(FLAGS) -I $(INCLUDES) -I $(LIB_FT_DIR) -I $(LIB_X_DIR) -o $@ -c $<

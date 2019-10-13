@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 18:21:30 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 01:13:45 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void				free_lines(char **lines);
 void				free_points(t_point **points);
 
 ///___utilities.c
+int					atouhi(const char *str);
 int					blend(int c1, int c2, unsigned char val);
 double				clamp(double val, double min, double max);
 double				cycle(double val, double min, double max);

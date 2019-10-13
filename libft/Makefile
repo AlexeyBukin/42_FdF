@@ -26,7 +26,6 @@ all: $(NAME)
 
 $(NAME): $(O_DIR) $(O_FILES)
 	@ranlib $(NAME)
-	@echo "make: Done building \`libft'."
 
 $(O_DIR):
 	@mkdir -p $(O_DIR)

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 05:46:07 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 02:22:54 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,17 @@ int		key_pressed(int key, void *data)
 	return (0);
 }
 
-int		main()
+int		main(int argc, char **argv)
 {
 	void * mlx_ptr = mlx_init();
 	void * win_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF");
+
+	if (argc == 2)
+	{
+		char * filename = argv[1];
+		t_point ** points = read_points(filename);
+		printf("read: %d\n", points == 0 ? -1 : 1);
+	}
 
 	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
 

@@ -14,7 +14,6 @@ all: $(NOM)
 $(NOM):	$(OBJ)
 	@ar rc $(NOM) $(OBJ)
 	@ranlib $(NOM)
-	@echo "make: Done building \`mlx'."
 
 %.o : %.c
 	@clang $(CFLAGS) -c $< -o $@

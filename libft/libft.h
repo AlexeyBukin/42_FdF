@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/14 12:23:19 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/11 14:02:30 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 04:03:24 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,7 @@ int				ft_abs(int a);
 int				ft_pow(int num, int pow);
 int				ft_word_count(const char *s, char c);
 void			ft_lstappend(t_list **alst, t_list *new);
+
+int				ft_atoi_base(const char *str, char base);
 
 #endif
