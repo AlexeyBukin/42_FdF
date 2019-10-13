@@ -19,7 +19,7 @@ FRAMEWORKS = -framework OpenGL -framework AppKit
 
 #ls *.c
 C_FILES_LIST = convert_coords.c draw_simple_line.c free_funcs.c get_next_line.c main.c \
-printables.c read_file.c test.c utilities.c
+printables.c read_points.c test.c utilities.c
 
 
 C_FILES	= $(addprefix $(C_DIR), $(C_FILES_LIST))
@@ -47,7 +47,7 @@ $(LIB_X_FILE):
 	@echo "make: Done building \`mlx'."
 
 $(O_DIR)%.o: $(C_DIR)%.c
-	@clang $(FLAGS) -I $(INCLUDES) -I $(LIB_FT_DIR) -I $(LIB_X_DIR) -o $@ -c $<
+	clang $(FLAGS) -I $(INCLUDES) -I $(LIB_FT_DIR) -I $(LIB_X_DIR) -o $@ -c $<
 
 clean:
 	@make -C $(LIB_FT_DIR) clean

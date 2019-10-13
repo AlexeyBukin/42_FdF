@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 01:13:45 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 06:24:57 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ typedef struct		s_line
 }					t_line;
 
 ///___read_file.c
-t_point				**read_points(char *file);
+t_point				**read_points(char *file, int *ret_len);
 
 ///___free_funcs.c
 void				free_lines(char **lines);
-void				free_points(t_point **points);
+void				free_points(t_point **points, int line_num);
 
 ///___utilities.c
 int					atouhi(const char *str);
@@ -60,5 +60,6 @@ void				print_point(t_point p);
 
 ///___test.c
 void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
+void				draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, double va, double ha, int scale);
 
 #endif

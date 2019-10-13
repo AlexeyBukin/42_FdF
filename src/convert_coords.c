@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:24:13 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 02:24:13 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 07:12:52 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 #define CENTER_X 256
 #define CENTER_Y 300
+
+//#define CENTER_X 400
+//#define CENTER_Y 400
 
 t_point		convert_coords(t_point f, double angle_vertical, double angle_horizontal, int scale)
 {

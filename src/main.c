@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 02:22:54 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 07:04:23 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ typedef struct	s_data
 	double		va;
 	double		ha;
 	int			scale;
+	int			line_len;
+	t_point		**points;
 }				t_data;
 
 int		key_pressed(int key, void *data)
@@ -50,6 +52,7 @@ int		key_pressed(int key, void *data)
 	//t_data d = param;
 	//printf("key pressed: %d (\'%c\')\n", key, (char) key);
 	//printf("param: %d\n", b);
+
 	if (key >= LEFT_KEY && key <= UP_KEY)
 	{
 		if (key == LEFT_KEY)
@@ -61,7 +64,8 @@ int		key_pressed(int key, void *data)
 		else if (key == DOWN_KEY)
 			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
-		draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->line_len, d->va, d->ha, d->scale);
 		return (0);
 	}
 	if (key == R_KEY || key == SHIFT_KEY || key == CTRL_KEY)
@@ -71,7 +75,9 @@ int		key_pressed(int key, void *data)
 		else if (key == CTRL_KEY)
 			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
-		draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
+		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->line_len, d->va, d->ha, d->scale);
+
 		return (0);
 	}
 	if (key == ESC_KEY)
@@ -87,18 +93,27 @@ int		main(int argc, char **argv)
 	void * mlx_ptr = mlx_init();
 	void * win_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF");
 
+	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 20, 0, 0};
+
 	if (argc == 2)
 	{
-		char * filename = argv[1];
-		t_point ** points = read_points(filename);
-		printf("read: %d\n", points == 0 ? -1 : 1);
+		//char * filename = argv[1];
+		printf("%s\n", argv[1]);
+		int line_len = 0;
+		t_point ** points = read_points(argv[1], &line_len);
+		printf("read_points: %d, %d\n", points == 0 ? -1 : 1, (int) points);
+
+		d.points = points;
+		d.line_len = line_len;
+
+		//draw_points(mlx_ptr, win_ptr, points, line_len, d.va, d.ha, d.scale);
 	}
 
-	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
-
+//	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
+//
 	mlx_key_hook(win_ptr, key_pressed, (void *) &d);
-
-	draw_stuff(mlx_ptr, win_ptr, d.va, d.ha, d.scale);
+//
+//	draw_stuff(mlx_ptr, win_ptr, d.va, d.ha, d.scale);
 
 	mlx_loop(mlx_ptr);
 	return (0);

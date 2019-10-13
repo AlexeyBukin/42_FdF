@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 03:35:28 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 07:14:55 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ static void		adjust_points(t_point **points, int line_len, int line_num, int max
 	i = 0;
 	while (i < line_num)
 	{
-		shared_y = i - (line_num + shift_y);
+		shared_y = i - (line_num / 2  + shift_y);
 		j = 0;
 		while (j < line_len)
 		{
-			points[i][j].x = j - (line_num + shift_x);
+			points[i][j].x = j - (line_num / 2 + shift_x);
 			points[i][j].y = shared_y;
-			points[i][j].z = (int) round(points[i][j].z / max_z * MAX_HEIGHT_IN_TILES);
+			points[i][j].z = (int) round((points[i][j].z + 0.0) / max_z * MAX_HEIGHT_IN_TILES);
 			j++;
 		}
 		i++;
@@ -71,11 +71,18 @@ static t_point	*read_point_line(int fd, int *len, int *max_z)
 	char		*line;
 	int 		i;
 
+	int gnl_res;
+
 	line = 0;
+	gnl_res = get_next_line(fd, &line);
+
+	//write(1, "enter rpl\n", 10);
+
 	splitted = ft_strsplit(line, ' ');
 
-	if(get_next_line(fd, &line) < 0 || splitted == 0)
+	if(gnl_res < 0 || splitted == 0)
 	{
+		printf("error (4); splitted: %d\n", (int) splitted);
 		free(line);
 		free_lines(splitted);
 		return (0);
@@ -98,10 +105,11 @@ static t_point	*read_point_line(int fd, int *len, int *max_z)
 	free(line);
 	free_lines(splitted);
 
+	//write(1, "exit rpl\n", 9);
 	return (point_line);
 }
 
-t_point			**read_points(char *file)
+t_point			**read_points(char *file, int *ret_len)
 {
 	t_point			**points;
 	t_point			**new_points;
@@ -114,6 +122,7 @@ t_point			**read_points(char *file)
 	int 			max_z;
 	int 			i;
 
+	//printf("like that?\n");
 	int fd = open(file, O_RDONLY);
 
 	points = (t_point**)malloc(sizeof(t_point*) * 2);
@@ -121,6 +130,8 @@ t_point			**read_points(char *file)
 
 	if (points == 0 || point_line == 0 || line_len == 0)
 	{
+		printf("error (1); points: %d, pl: %d, ll: %d\n", (int) points, (int) point_line, line_len);
+
 		free(points);
 		free(point_line);
 		return (0);
@@ -130,14 +141,28 @@ t_point			**read_points(char *file)
 	points[1] = 0;
 	elem_num = 1;
 
-	while((point_line = read_point_line(fd, &i, &max_z)) != 0)
+//	i = 0;
+//	while (points[i] != 0)
+//	{
+//		printf("points[i]: %d\n", (int) points[i]);
+//		//write(1, "1+", 2);
+//		//free(points[i]);
+//		i++;
+//	}
+
+
+	while((point_line = read_point_line(fd, &i, &max_z)) != 0 && i != 0)
 	{
+		//write(1, "loop\n", 5);
 		new_points = (t_point**)malloc(sizeof(t_point*) * (++elem_num + 1));
 		if (new_points == 0 || i != line_len)
 		{
+			//write(1, "(1)\n", 4);
+			printf("error (2); np: %d, line_len: %d, i: %d\n", (int) new_points, line_len, i);
+
 			free(new_points);
 			free(point_line);
-			free_points(points);
+			free_points(points, elem_num - 1);
 			return (0);
 		}
 
@@ -150,13 +175,30 @@ t_point			**read_points(char *file)
 		new_points[i] = point_line;
 		new_points[i + 1] = 0;
 
-		free_points(points);
+		//write(1, "loop 2\n", 7);
+
+		//free_points(points, elem_num - 1);
+		//free_points(points, 1);
+		free(points);
 		points = new_points;
+
+//		i = 0;
+//		while (points[i] != 0)
+//		{
+//			printf("points[i]: %d\n", (int) points[i]);
+//			//write(1, "1+", 2);
+//			//free(points[i]);
+//			i++;
+//		}
+
+		//write(1, "loop 3\n", 7);
 	}
+	//write(1, "after loop\n", 11);
 
 	free(point_line);
 
 	adjust_points(points, line_len, elem_num, max_z);
-
+	*ret_len = line_len;
+	//printf("error (3); wtf\n");
 	return (points);
 }

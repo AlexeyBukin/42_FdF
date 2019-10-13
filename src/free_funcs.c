@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 23:41:41 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/12 23:49:18 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 05:14:51 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,21 @@ void	free_lines(char **lines)
 	free(lines);
 }
 
-void	free_points(t_point **points)
+void	free_points(t_point **points, int line_num)
 {
 	int 	i;
 
-	i = 0;
+	line_num++;
 	if (points == 0)
 		return ;
+	i = 0;
 	while (points[i] != 0)
 	{
+		printf("points[i]: %d\n", (int) points[i]);
+		write(1, "1+", 2);
 		free(points[i]);
+		i++;
 	}
+	printf("\n");
 	free(points);
 }
