@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 18:16:31 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 00:15:51 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ typedef struct		s_line
 }					t_line;
 
 ///___read_file.c
-t_point				**read_points(char *file, int *ret_len);
+t_point				***read_points(char *file);
 
 ///___free_funcs.c
 void				free_lines(char **lines);
-void				free_points(t_point **points, int line_num);
+void				free_point_line(t_point **point_line);
+void				free_points(t_point ***points);
 
 ///___utilities.c
 int					atouhi(const char *str);
@@ -51,18 +52,19 @@ double				cycle(double val, double min, double max);
 
 ///___convert_coords.c
 t_point				convert_coords(t_point f,  double vert_angle, double hor_angle, int scale);
+void				convert_coords_on_place(t_point *f, double angle_vertical, double angle_horizontal, int scale);
 
 ///___draw_simple_line.c
 void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 
 ///___printables.c
 void				print_point(t_point p);
-void				print_points(t_point **points, int line_len);
-void				print_point_line(t_point *line, int line_len);
-void				print_colors(t_point **points, int line_len);
+void				print_points(t_point ***points);
+void				print_point_line(t_point **line);
+void				print_colors(t_point ***points);
 
 ///___test.c
 void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
-void				draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, double va, double ha, int scale);
+void				draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale);
 
 #endif

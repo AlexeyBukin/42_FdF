@@ -70,7 +70,7 @@ int				get_next_line(const int fd, char **line)
 {
 	int				one_if_res;
 	int				val;
-	static char		last_bufs[65636][BUFF_SIZE + 1];
+	static char		last_bufs[255][BUFF_SIZE + 1];
 	char			*pointer;
 	char			buf[BUFF_SIZE + 1];
 

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 07:04:23 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 00:52:55 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ typedef struct	s_data
 	double		va;
 	double		ha;
 	int			scale;
-	int			line_len;
-	t_point		**points;
+	t_point		***points;
 }				t_data;
 
 int		key_pressed(int key, void *data)
@@ -65,7 +64,7 @@ int		key_pressed(int key, void *data)
 			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
 		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
-		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->line_len, d->va, d->ha, d->scale);
+		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
 		return (0);
 	}
 	if (key == R_KEY || key == SHIFT_KEY || key == CTRL_KEY)
@@ -76,7 +75,7 @@ int		key_pressed(int key, void *data)
 			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
 		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
-		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->line_len, d->va, d->ha, d->scale);
+		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
 
 		return (0);
 	}
@@ -93,22 +92,25 @@ int		main(int argc, char **argv)
 	void * mlx_ptr = mlx_init();
 	void * win_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF");
 
-	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 20, 0, 0};
+	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 20, 0};
 
 	if (argc == 2)
 	{
 		//char * filename = argv[1];
 		printf("%s\n", argv[1]);
-		int line_len = 0;
-		t_point ** points = read_points(argv[1], &line_len);
+		//int line_len = 0;
+		t_point *** points = read_points(argv[1]);
+
 		printf("read_points: %d, %d\n", points == 0 ? -1 : 1, (int) points);
 
 		d.points = points;
-		d.line_len = line_len;
+		//d.line_len = line_len;
 
-		print_points(points, line_len);
+		print_points(points);
 
-		draw_points(mlx_ptr, win_ptr, points, line_len, d.va, d.ha, d.scale);
+		draw_points(mlx_ptr, win_ptr, points, d.va, d.ha, d.scale);
+
+		print_points(points);
 	}
 
 //	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
