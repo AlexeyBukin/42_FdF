@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:39:53 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 03:36:39 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 21:27:15 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int		atouhi(const char *str)
 		if (str[i] == 'x')
 		{
 			i++;
-			return (ft_atoi_base(&(str[i]), 16));
+			int color = ft_atoi_base(&(str[i]), 16);
+			printf("col: 0x%08x\n", color);
+			return (color);
 		}
 	}
 	return (0);

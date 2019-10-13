@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 07:14:55 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 21:25:39 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,19 @@ static void		adjust_points(t_point **points, int line_len, int line_num, int max
 	int		i;
 	int 	j;
 
-	shift_x = (line_len % 2 == 1) ? 0 : 1;
-	shift_y = (line_num % 2 == 1) ? 0 : 1;
+	shift_x = (line_len % 2 != 1) ;// (line_len % 2 == 1) ? 0 : 1;
+	shift_y = (line_num % 2 != 1) ;// (line_num % 2 == 1) ? 0 : 1;
+
+	printf("shift_x: %d, shift_y: %d\n", shift_x, shift_y);
 
 	i = 0;
 	while (i < line_num)
 	{
-		shared_y = i - (line_num / 2  + shift_y);
+		shared_y = (i - (line_num - 1) / 2) * 2 - shift_y;
 		j = 0;
 		while (j < line_len)
 		{
-			points[i][j].x = j - (line_num / 2 + shift_x);
+			points[i][j].x = (j - (line_len - 1) / 2) * 2 - shift_x;
 			points[i][j].y = shared_y;
 			points[i][j].z = (int) round((points[i][j].z + 0.0) / max_z * MAX_HEIGHT_IN_TILES);
 			j++;
@@ -54,13 +56,13 @@ static t_point	str_to_point(char *str)
 		*pointer = '\0';
 		pointer++;
 		color = atouhi(pointer);
-		color = (color == 0) * 0x00FFFFFF + color;
 	}
 	height = ft_atoi(str);
 	point.x = 0;
 	point.y = 0;
 	point.z = height;
 	point.col = color;
+	//printf("col: 0x%08x\n", color);
 	return (point);
 }
 

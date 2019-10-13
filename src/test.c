@@ -6,13 +6,13 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 07:04:23 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 20:11:58 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	draw_stuff(void *mlx_ptr, void *win_ptr, double va, double ha, int scale)
+void		draw_stuff(void *mlx_ptr, void *win_ptr, double va, double ha, int scale)
 {
 
 	t_point red_dot = {4, 4, 0, 0x00FF0000};
@@ -61,10 +61,86 @@ void	draw_stuff(void *mlx_ptr, void *win_ptr, double va, double ha, int scale)
 //	draw_simple_line(mlx_ptr, win_ptr, blend_line);
 }
 
-void	draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, double va, double ha, int scale)
+t_point		**points_dup(t_point **points, int line_len)
 {
+	t_point	**p_dup;
+	int		line_num;
+	int		i;
+	int 	j;
+
+	line_num = 0;
+	while (points[line_num] != 0)
+		line_num++;
+
+	p_dup = (t_point **)malloc(sizeof(t_point *) * (line_num + 1));
+	if (p_dup == 0)
+		return (0);
+	p_dup[line_num] = 0;
+	i = 0;
+	while (i < line_num)
+	{
+		p_dup[i] = (t_point *)malloc(sizeof(t_point) * line_len);
+		if (p_dup[i] == 0)
+		{
+			free_points(p_dup, line_len);
+			return (0);
+		}
+		j = 0;
+		while (j < line_len)
+		{
+			p_dup[i][j] = points[i][j];
+			j++;
+		}
+		i++;
+	}
+	return (p_dup);
+}
+
+t_point		**new_points_as(t_point **points, int line_len)
+{
+	t_point	**p_dup;
+	int		line_num;
+	int		i;
+
+	line_num = 0;
+	while (points[line_num] != 0)
+		line_num++;
+
+	p_dup = (t_point **)malloc(sizeof(t_point *) * (line_num + 1));
+	if (p_dup == 0)
+		return (0);
+	p_dup[line_num] = 0;
+	i = 0;
+	while (i < line_num)
+	{
+		p_dup[i] = (t_point *)malloc(sizeof(t_point) * line_len);
+		if (p_dup[i] == 0)
+		{
+			free_points(p_dup, line_len);
+			return (0);
+		}
+		i++;
+	}
+	return (p_dup);
+}
+
+void		draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, double va, double ha, int scale)
+{
+	t_point blue_dot = {256, 0, 0, 0x000000FF};
+	t_point blue_dot_2 = {256, 512, 0, 0x000000FF};
+
+	t_point blue_dot_3 = {0, 256, 0, 0x000000FF};
+	t_point blue_dot_4 = {512, 256, 0, 0x000000FF};
+
+	t_line b1 = {&blue_dot, &blue_dot_2};
+	t_line b2 = {&blue_dot_3, &blue_dot_4};
+
+	draw_simple_line(mlx_ptr, win_ptr, b1);
+	draw_simple_line(mlx_ptr, win_ptr, b2);
+
+
 	//t_line	lines[100];
-	t_point	new_points[10][line_len];
+	t_point		**new_points;
 
 	int 	line_num;
 	int		i;
@@ -72,7 +148,8 @@ void	draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, d
 
 	line_num = 0;
 	i = 0;
-	while (i < 10)//points[i] != 0)
+	new_points = new_points_as(points, line_len);
+	while (points[i] != 0)
 	{
 		line_num++;
 		j = 0;
@@ -83,12 +160,16 @@ void	draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, d
 		}
 		i++;
 	}
+	//new_points[i] = (t_point *) 0;
 
-	//int line_counter = 0;
+	printf("\n");
+	print_colors(new_points, line_len);
+	//print_points(new_points, line_len);
+	printf("\n");
 
 
 	i = 0;
-	while (i < 10)// line_num)
+	while (i < line_num)
 	{
 		j = 0;
 		while (j < line_len - 1)
@@ -105,7 +186,7 @@ void	draw_points(void *mlx_ptr, void *win_ptr, t_point **points, int line_len, d
 	while (i < line_len)
 	{
 		j = 0;
-		while (j < 9)//line_num - 1)
+		while (j < line_num - 1)
 		{
 			t_line tmp = {&new_points[j][i], &new_points[j + 1][i]};
 			draw_simple_line(mlx_ptr, win_ptr, tmp);

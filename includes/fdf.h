@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 06:24:57 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 18:16:31 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 
 ///___printables.c
 void				print_point(t_point p);
+void				print_points(t_point **points, int line_len);
+void				print_point_line(t_point *line, int line_len);
+void				print_colors(t_point **points, int line_len);
 
 ///___test.c
 void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/07 16:41:04 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 04:06:44 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/13 21:28:54 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,6 @@ static int	ft_is_blank(char c)
 	{
 		return (0);
 	}
-}
-
-static int	c_in_base(char c, char base)
-{
-	if (base <= 10)
-	{
-		return ( ((c >= '0') && (c <= '0' + base - 1)) ? c - '0' : -1 );
-	}
-	if (c >= '0' && c <= '9')
-	{
-		return (c - '0');
-	}
-	if ((c >= 'A') && (c <= 'A' + base - 11))
-	{
-		return (c - 'A');
-	}
-	return (-1);
 }
 
 int			ft_atoi(const char *str)
@@ -66,6 +49,27 @@ int			ft_atoi(const char *str)
 		i++;
 	}
 	return (res * negative);
+}
+
+static int	c_in_base(char c, char base)
+{
+	if (base <= 10)
+	{
+		return ( ((c >= '0') && (c <= '0' + base - 1)) ? c - '0' : -1 );
+	}
+	if (c >= '0' && c <= '9')
+	{
+		return (c - '0');
+	}
+	if ((c >= 'A') && (c <= 'A' + base - 11))
+	{
+		return (c - 'A' + 10);
+	}
+	if ((c >= 'a') && (c <= 'a' + base - 11))
+	{
+		return (c - 'a' + 10);
+	}
+	return (-1);
 }
 
 int			ft_atoi_base(const char *str, char base)

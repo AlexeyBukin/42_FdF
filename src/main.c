@@ -106,7 +106,9 @@ int		main(int argc, char **argv)
 		d.points = points;
 		d.line_len = line_len;
 
-		//draw_points(mlx_ptr, win_ptr, points, line_len, d.va, d.ha, d.scale);
+		print_points(points, line_len);
+
+		draw_points(mlx_ptr, win_ptr, points, line_len, d.va, d.ha, d.scale);
 	}
 
 //	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};
