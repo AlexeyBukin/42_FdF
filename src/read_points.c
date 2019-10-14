@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:43:12 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 07:14:25 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void		adjust_points(t_point ***points, int line_len, int line_num, int ma
 		}
 		i++;
 	}
+
+	//max_z++;
 }
 
 static t_point	*str_to_point(char *str)
@@ -103,7 +105,10 @@ static t_point	**read_point_line(int fd, int *max_z, int *line_len)
 		point_line[i] = str_to_point(splitted[i]);
 		if (point_line[i] == 0)
 		{
-
+			free_lines(splitted);
+			free(line);
+			*line_len = -1;
+			///TODO return -1
 		}
 		if (point_line[i]->z > *max_z)
 			*max_z = point_line[i]->z;
@@ -133,7 +138,7 @@ t_point			***read_points(char *file)
 
 	//printf("like that?\n");
 	int fd = open(file, O_RDONLY);
-
+	max_z = 0;
 	points = (t_point***)malloc(sizeof(t_point**) * 2);
 	point_line = read_point_line(fd, &max_z, &line_len);
 
@@ -183,8 +188,22 @@ t_point			***read_points(char *file)
 
 	free(point_line);
 
-	//TODO implement adjust_points()
+	if (i < 0)
+	{
+		free(points);
+		printf("error reading file (1)\n");
+		return (0);
+		///free, return;
+	}
+
+	//printf("\n read_points before adjust, max_z: %d\n", max_z);
+	//print_points(new_points);
+
 	adjust_points(points, line_len, line_num, max_z);
+
+	//printf("\n read_points after adjust \n");
+	//print_points(new_points);
+	//printf("\n");
 
 	//*ret_len = line_len;
 	//printf("error (3); wtf\n");

@@ -6,14 +6,14 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:24:13 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:44:24 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 07:21:08 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-#define CENTER_X 256
-#define CENTER_Y 256
+#define CENTER_X 512
+#define CENTER_Y 512
 
 
 //#define CENTER_X 400
@@ -55,7 +55,7 @@ void		convert_coords_on_place(t_point *f, double angle_vertical, double angle_ho
 
 	z_size = (scale + 0.0) * cos(angle_vertical);
 
-	printf("converting x(%d) ", f->x);
+	//printf("converting x(%d) ", f->x);
 
 	v.x = f->x * scale;
 	v.y = f->y * scale;
@@ -63,14 +63,17 @@ void		convert_coords_on_place(t_point *f, double angle_vertical, double angle_ho
 	radius = (radius <= 0) ? 0 : sqrt(radius);
 
 	v.x = x0 + round(radius * cos(atan2(f->y, f->x) + angle_horizontal));
-	v.y = y0 + round(sin(angle_vertical) * radius * sin(atan2(f->y, f->x) + angle_horizontal));
+	//v.y = y0 + round(sin(angle_vertical) * radius * sin(atan2(f->y, f->x) + angle_horizontal));
+	v.y = round(sin(angle_vertical) * radius * sin(atan2(f->y, f->x) + angle_horizontal));
 
-	v.z = round(f->z * z_size);
-	v.y = v.y - v.z;
+	v.z = v.y;//round(f->z * z_size);
+	//v.z = v.y;
+	//v.y = v.y + y0;
+	v.y = y0 + v.y - round(f->z * z_size);
 
 	f->x = v.x;
 	f->y = v.y;
 	f->z = v.z;
 
-	printf("to %d, %d \n", f->x, v.x);
+	//printf("to %d, %d \n", f->x, v.x);
 }

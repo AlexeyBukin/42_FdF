@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:56:07 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 07:18:45 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ void		draw_stuff(void *mlx_ptr, void *win_ptr, double va, double ha, int scale)
 	t_point white_dot = {0, 0,10, 0x00FFFFFF};
 	white_dot = convert_coords(white_dot, va, ha, scale);
 
-	t_line l1 = {&red_dot, &green_dot};
-	t_line l2 = {&green_dot, &blue_dot};
-	t_line l3 = {&blue_dot, &pink_dot};
-	t_line l4 = {&pink_dot, &red_dot};
-	t_line l5 = {&pink_dot, &green_dot};
-	t_line l6 = {&red_dot, &blue_dot};
+	t_line l1 = {&red_dot, &green_dot, 0, 0, 0};
+	t_line l2 = {&green_dot, &blue_dot, 0, 0, 0};
+	t_line l3 = {&blue_dot, &pink_dot, 0, 0, 0};
+	t_line l4 = {&pink_dot, &red_dot, 0, 0, 0};
+	t_line l5 = {&pink_dot, &green_dot, 0, 0, 0};
+	t_line l6 = {&red_dot, &blue_dot, 0, 0, 0};
 
-	t_line w1 = {&white_dot, &green_dot};
-	t_line w2 = {&white_dot, &red_dot};
-	t_line w3 = {&white_dot, &blue_dot};
-	t_line w4 = {&white_dot, &pink_dot};
+	t_line w1 = {&white_dot, &green_dot, 0, 0, 0};
+	t_line w2 = {&white_dot, &red_dot, 0, 0, 0};
+	t_line w3 = {&white_dot, &blue_dot, 0, 0, 0};
+	t_line w4 = {&white_dot, &pink_dot, 0, 0, 0};
 
 	draw_simple_line(mlx_ptr, win_ptr, l1);
 	draw_simple_line(mlx_ptr, win_ptr, l2);
@@ -161,14 +161,14 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 	int 		j;
 
 
-	t_point blue_dot = {256, 0, 0, 0x000000FF};
-	t_point blue_dot_2 = {256, 512, 0, 0x000000FF};
+	t_point blue_dot = {512, 0, 0, 0x000000FF};
+	t_point blue_dot_2 = {512, 1024, 0, 0x000000FF};
 
-	t_point blue_dot_3 = {0, 256, 0, 0x000000FF};
-	t_point blue_dot_4 = {512, 256, 0, 0x000000FF};
+	t_point blue_dot_3 = {0, 512, 0, 0x000000FF};
+	t_point blue_dot_4 = {1024, 512, 0, 0x000000FF};
 
-	t_line b1 = {&blue_dot, &blue_dot_2};
-	t_line b2 = {&blue_dot_3, &blue_dot_4};
+	t_line b1 = {&blue_dot, &blue_dot_2, 0, 0, 0};
+	t_line b2 = {&blue_dot_3, &blue_dot_4, 0, 0, 0};
 
 	draw_simple_line(mlx_ptr, win_ptr, b1);
 	draw_simple_line(mlx_ptr, win_ptr, b2);
@@ -182,14 +182,16 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 //	print_points(new_points);
 //	printf("\n");
 
+	printf("\nbefore conv:\n");
+	print_points(new_points);
 	i = 0;
 	while (points[i] != 0)
 	{
 		j = 0;
 		while (points[i][j] != 0)
 		{
-			//convert_coords_on_place(new_points[i][j], va, ha, scale);
-			*new_points[i][j] = convert_coords(*new_points[i][j], va, ha, scale);
+			convert_coords_on_place(new_points[i][j], va, ha, scale);
+			//*new_points[i][j] = convert_coords(*new_points[i][j], va, ha, scale);
 			j++;
 		}
 		i++;
@@ -197,11 +199,14 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 	line_len = j;
 	line_num = i;
 
-	printf("\n");
-	print_colors(new_points);
+	printf("\nafter conv:\n");
+	//print_colors(new_points);
 	print_points(new_points);
 	printf("\n");
 
+	t_line	*line_list = 0;
+
+	t_line	*tmp = 0;
 
 	i = 0;
 	while (i < line_num)
@@ -209,8 +214,23 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 		j = 0;
 		while (j < line_len - 1)
 		{
-			t_line tmp = {new_points[i][j], new_points[i][j+1]};
-			draw_simple_line(mlx_ptr, win_ptr, tmp);
+			tmp = (t_line*)malloc(sizeof(t_line));
+			if (tmp == 0)
+			{
+				free_points(new_points);
+				free_line_list(line_list);
+				return ;
+			}
+			tmp->p1 = new_points[i][j];
+			tmp->p2 = new_points[i][j+1];
+			tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
+			tmp->next = 0;
+			tmp->prev = 0;
+			//*tmp = {new_points[i][j], new_points[i][j+1], 0, 0, 0};
+
+			insert_line(&line_list, tmp);
+
+			//draw_simple_line(mlx_ptr, win_ptr, *tmp);
 			j++;
 		}
 		i++;
@@ -222,13 +242,39 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 		j = 0;
 		while (j < line_len)
 		{
-			t_line tmp = {new_points[i][j], new_points[i + 1][j]};
-			draw_simple_line(mlx_ptr, win_ptr, tmp);
+			//t_line tmp = {new_points[i][j], new_points[i + 1][j], 0, 0, 0};
+
+			tmp = (t_line*)malloc(sizeof(t_line));
+			if (tmp == 0)
+			{
+				free_points(new_points);
+				free_line_list(line_list);
+				return ;
+			}
+			tmp->p1 = new_points[i][j];
+			tmp->p2 = new_points[i + 1][j];
+			tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
+			tmp->next = 0;
+			tmp->prev = 0;
+			//*tmp = {new_points[i][j], new_points[i][j+1], 0, 0, 0};
+
+			insert_line(&line_list, tmp);
+
+			//draw_simple_line(mlx_ptr, win_ptr, *tmp);
 			j++;
 		}
 		i++;
 	}
 
+	if (line_list != 0)
+	{
+		draw_simple_line(mlx_ptr, win_ptr, *line_list);
+		while(line_list->next!= 0)
+		{
+			line_list = line_list->next;
+			draw_simple_line(mlx_ptr, win_ptr, *line_list);
+		}
+	}
 
 //	t_point red_dot = convert_coords(points[0][0], va, ha, scale);
 //	t_point red_dot_2 = convert_coords(points[0][1], va, ha, scale);
@@ -243,4 +289,5 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 //	draw_simple_line(mlx_ptr, win_ptr, l1);
 //	draw_simple_line(mlx_ptr, win_ptr, l3);
 //	draw_simple_line(mlx_ptr, win_ptr, l2);
+
 }

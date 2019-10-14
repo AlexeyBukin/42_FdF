@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:52:55 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 00:57:38 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		key_pressed(int key, void *data)
 int		main(int argc, char **argv)
 {
 	void * mlx_ptr = mlx_init();
-	void * win_ptr = mlx_new_window(mlx_ptr, 512, 512, "FdF");
+	void * win_ptr = mlx_new_window(mlx_ptr, 1024, 1024, "FdF");
 
 	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 20, 0};
 

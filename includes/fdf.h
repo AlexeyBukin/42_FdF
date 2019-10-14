@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:15:51 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 03:25:01 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ typedef struct		s_line
 {
 	t_point			*p1;
 	t_point			*p2;
+
+	int 			z;
+
+	struct s_line	*next;
+	struct s_line	*prev;
+
 }					t_line;
 
 ///___read_file.c
@@ -66,5 +72,9 @@ void				print_colors(t_point ***points);
 ///___test.c
 void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
 void				draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale);
+
+///___line_list.c
+void				insert_line(t_line **start, t_line *new);
+void				free_line_list(t_line *list);
 
 #endif
