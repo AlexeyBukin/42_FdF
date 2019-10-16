@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 02:29:54 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 06:46:40 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 20:33:08 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,20 @@ void	insert_line(t_line **start, t_line *new)
 
 	(temp->prev)->next = new;
 	temp->prev = new;
+}
+
+void	add_line(t_line **start, t_line *new)
+{
+	if (start == 0 || new == 0)
+		return ;
+	if (*start == 0)
+	{
+		*start = new;
+		return ;
+	}
+	(*start)->prev = new;
+	new->next = *start;
+	*start = new;
 }
 
 void	free_line_list(t_line *list)

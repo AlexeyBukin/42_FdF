@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 00:57:38 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 20:35:53 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 #define VA_DELTA (M_PI / 2 / 8)
 
 #define SCALE_MIN 1
-#define SCALE_MAX 100
+#define SCALE_MAX 40
 #define SCALE_DELTA 1
 
 typedef struct	s_data
@@ -64,7 +64,7 @@ int		key_pressed(int key, void *data)
 			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
 		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
-		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
+		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
 		return (0);
 	}
 	if (key == R_KEY || key == SHIFT_KEY || key == CTRL_KEY)
@@ -75,7 +75,14 @@ int		key_pressed(int key, void *data)
 			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
 		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
-		draw_points(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
+
+		//clock_t t0, t1;
+		//t0 = clock();
+
+		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
+
+		//t1 = clock() - t0;
+		//printf("(time: %f), drawn r, shift or ctrl\n", ((double)t1)/CLOCKS_PER_SEC);
 
 		return (0);
 	}
@@ -92,25 +99,31 @@ int		main(int argc, char **argv)
 	void * mlx_ptr = mlx_init();
 	void * win_ptr = mlx_new_window(mlx_ptr, 1024, 1024, "FdF");
 
-	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 20, 0};
+	t_data d = {mlx_ptr, win_ptr, M_PI / 4, -1.0 * M_PI / 8, 20, 0};
 
 	if (argc == 2)
 	{
 		//char * filename = argv[1];
 		printf("%s\n", argv[1]);
 		//int line_len = 0;
+
+		clock_t t0, t1;
+		t0 = clock();
+
 		t_point *** points = read_points(argv[1]);
 
-		printf("read_points: %d, %d\n", points == 0 ? -1 : 1, (int) points);
+		t1 = clock() - t0;
+		printf("(time: %f), read_points: %d, %d\n", ((double)t1)/CLOCKS_PER_SEC, points == 0 ? -1 : 1, (int) points);
 
 		d.points = points;
 		//d.line_len = line_len;
 
-		print_points(points);
-
-		draw_points(mlx_ptr, win_ptr, points, d.va, d.ha, d.scale);
-
-		print_points(points);
+//		//print_points(points);
+//		t0 = clock();
+		draw_parallel(mlx_ptr, win_ptr, points, d.va, d.ha, d.scale);
+//		t1 = clock() - t0;
+//		printf("(time: %f), drawn", ((double)t1)/CLOCKS_PER_SEC);
+		//print_points(points);
 	}
 
 //	t_data d = {mlx_ptr, win_ptr, M_PI / 4, M_PI / 8, 10};

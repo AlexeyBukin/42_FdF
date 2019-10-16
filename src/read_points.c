@@ -6,13 +6,13 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 07:14:25 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 17:32:57 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-#define MAX_HEIGHT_IN_TILES 20.0
+#define MAX_HEIGHT_IN_TILES 60.0
 
 static void		adjust_points(t_point ***points, int line_len, int line_num, int max_z)
 {
@@ -36,7 +36,7 @@ static void		adjust_points(t_point ***points, int line_len, int line_num, int ma
 		{
 			points[i][j]->x = (j - (line_len - 1) / 2) * 2 - shift_x;
 			points[i][j]->y = shared_y;
-			points[i][j]->z = (int) round((points[i][j]->z + 0.0) / max_z * MAX_HEIGHT_IN_TILES);
+			points[i][j]->z = max_z == 0 ? 0 : (int) round((points[i][j]->z + 0.0) / max_z * MAX_HEIGHT_IN_TILES);
 			j++;
 		}
 		i++;

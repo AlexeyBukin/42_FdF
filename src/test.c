@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 07:18:45 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/14 23:14:35 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,22 @@ t_point		***new_points_as(t_point ***points)
 	return (p_dup);
 }
 
-void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale)
+int		is_on_screen(t_point *a, t_point *b)
+{
+	int boundX = 1024;
+	int boundY = 1024;
+
+	if (a->x > boundX || a->x < 0 || a->y > boundY || a->y < 0)
+	{
+		if (b->x > boundX || b->x < 0 || b->y > boundY || b->y < 0)
+		{
+			return (0);
+		}
+	}
+	return (1);
+}
+
+void		draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale)
 {
 	t_point		***new_points;
 	int			line_num;
@@ -174,6 +189,10 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 	draw_simple_line(mlx_ptr, win_ptr, b2);
 
 
+	clock_t t2, t3;
+	t2 = clock();
+
+
 	new_points = points_dup(points);
 	if (new_points == 0)
 		return ;
@@ -182,8 +201,12 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 //	print_points(new_points);
 //	printf("\n");
 
-	printf("\nbefore conv:\n");
-	print_points(new_points);
+	//printf("\nbefore conv:\n");
+	//print_points(new_points);
+
+	clock_t t0, t1;
+	t0 = clock();
+
 	i = 0;
 	while (points[i] != 0)
 	{
@@ -196,75 +219,108 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 		}
 		i++;
 	}
+
+	t1 = clock() - t0;
+	printf("\t\t(time: %f), converted : draw_parallel\n", ((double)t1)/CLOCKS_PER_SEC);
+
+
 	line_len = j;
 	line_num = i;
 
-	printf("\nafter conv:\n");
+	//printf("\nafter conv:\n");
 	//print_colors(new_points);
-	print_points(new_points);
-	printf("\n");
+	//print_points(new_points);
+	//printf("\n");
 
 	t_line	*line_list = 0;
 
+
 	t_line	*tmp = 0;
+
+	int minimal_distance = 0;
+	int maximal_distance = 0;
+	int zero_num = 0;
 
 	i = 0;
 	while (i < line_num)
 	{
 		j = 0;
-		while (j < line_len - 1)
-		{
-			tmp = (t_line*)malloc(sizeof(t_line));
-			if (tmp == 0)
-			{
-				free_points(new_points);
-				free_line_list(line_list);
-				return ;
-			}
-			tmp->p1 = new_points[i][j];
-			tmp->p2 = new_points[i][j+1];
-			tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
-			tmp->next = 0;
-			tmp->prev = 0;
-			//*tmp = {new_points[i][j], new_points[i][j+1], 0, 0, 0};
-
-			insert_line(&line_list, tmp);
-
-			//draw_simple_line(mlx_ptr, win_ptr, *tmp);
-			j++;
-		}
-		i++;
-	}
-
-	i = 0;
-	while (i < line_num - 1)
-	{
-		j = 0;
 		while (j < line_len)
 		{
-			//t_line tmp = {new_points[i][j], new_points[i + 1][j], 0, 0, 0};
-
-			tmp = (t_line*)malloc(sizeof(t_line));
-			if (tmp == 0)
+			if (j < line_len - 1)
 			{
-				free_points(new_points);
-				free_line_list(line_list);
-				return ;
+				if ( is_on_screen(new_points[i][j], new_points[i][j+1]) )
+				{
+					tmp = (t_line*)malloc(sizeof(t_line));
+					if (tmp == 0)
+					{
+						free_points(new_points);
+						free_line_list(line_list);
+						return ;
+					}
+					tmp->p1 = new_points[i][j];
+					tmp->p2 = new_points[i][j+1];
+
+					/// tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
+					tmp->z = tmp->p1->z;
+
+					///delete me
+					if (tmp->z > maximal_distance)
+						maximal_distance = tmp->z;
+					if (tmp->z < minimal_distance)
+						minimal_distance = tmp->z;
+					if (tmp->z == 0)
+						zero_num++;
+
+					tmp->next = 0;
+					tmp->prev = 0;
+
+					add_line(&line_list, tmp);
+					//insert_line(&line_list, tmp);
+				}
 			}
-			tmp->p1 = new_points[i][j];
-			tmp->p2 = new_points[i + 1][j];
-			tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
-			tmp->next = 0;
-			tmp->prev = 0;
-			//*tmp = {new_points[i][j], new_points[i][j+1], 0, 0, 0};
+			if (i < line_num - 1)
+			{
+				if ( is_on_screen(new_points[i][j], new_points[i + 1][j]) )
+				{
+					tmp = (t_line*)malloc(sizeof(t_line));
+					if (tmp == 0)
+					{
+						free_points(new_points);
+						free_line_list(line_list);
+						return ;
+					}
+					tmp->p1 = new_points[i][j];
+					tmp->p2 = new_points[i + 1][j];
 
-			insert_line(&line_list, tmp);
+					/// tmp->z = (tmp->p1->z > tmp->p2->z) ? tmp->p1->z : tmp->p2->z;
+					tmp->z = tmp->p1->z;
 
-			//draw_simple_line(mlx_ptr, win_ptr, *tmp);
+					///delete me
+					if (tmp->z > maximal_distance)
+						maximal_distance = tmp->z;
+					if (tmp->z < minimal_distance)
+						minimal_distance = tmp->z;
+					if (tmp->z == 0)
+						zero_num++;
+
+					tmp->next = 0;
+					tmp->prev = 0;
+
+					add_line(&line_list, tmp);
+					//insert_line(&line_list, tmp);
+				}
+			}
 			j++;
 		}
 		i++;
 	}
+
+	printf("\nmin: %d, max: %d, zero_num: %d\n\n", minimal_distance, maximal_distance, zero_num);
+	t3 = clock() - t2;
+	printf("\t\t(time: %f), before_render : draw_parallel\n", ((double)t3)/CLOCKS_PER_SEC);
+
+	//t_line	*line_list_old = line_list;
 
 	if (line_list != 0)
 	{
@@ -275,6 +331,33 @@ void		draw_points(void *mlx_ptr, void *win_ptr, t_point ***points, double va, do
 			draw_simple_line(mlx_ptr, win_ptr, *line_list);
 		}
 	}
+
+//	line_list = line_list_old;
+//
+//	if (line_list != 0)
+//	{
+//		draw_simple_line(mlx_ptr, win_ptr, *line_list);
+//		while(line_list->next!= 0)
+//		{
+//			line_list = line_list->next;
+//			draw_simple_line(mlx_ptr, win_ptr, *line_list);
+//		}
+//	}
+//
+//	line_list = line_list_old;
+//
+//	if (line_list != 0)
+//	{
+//		draw_simple_line(mlx_ptr, win_ptr, *line_list);
+//		while(line_list->next!= 0)
+//		{
+//			line_list = line_list->next;
+//			draw_simple_line(mlx_ptr, win_ptr, *line_list);
+//		}
+//	}
+
+	t3 = clock() - t2;
+	printf("\t\t(time: %f) : draw_parallel\n", ((double)t3)/CLOCKS_PER_SEC);
 
 //	t_point red_dot = convert_coords(points[0][0], va, ha, scale);
 //	t_point red_dot_2 = convert_coords(points[0][1], va, ha, scale);
