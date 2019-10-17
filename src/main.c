@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 20:35:53 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:52:25 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,46 +45,75 @@ typedef struct	s_data
 	t_point		***points;
 }				t_data;
 
+int		is_data_equal(const t_data *d1, const t_data *d2)
+{
+	int		res;
+
+	if (d1 == 0 || d2 == 0)
+	{
+		if (d1 == 0 && d2 == 0)
+			return (1);
+		return (0);
+	}
+	res = (d1->va == d2->va);
+	res = res && (d1->ha == d2->ha);
+	res = res && (d1->scale == d2->scale);
+	return (res);
+}
+
 int		key_pressed(int key, void *data)
 {
-	t_data *d = (t_data *)data;
-	//t_data d = param;
-	//printf("key pressed: %d (\'%c\')\n", key, (char) key);
-	//printf("param: %d\n", b);
+	t_data	ref;
+	t_data	*d;
+	if (data == NULL)
+		return (-1);
+	d = (t_data *)data;
+	ref = *d;
 
-	if (key >= LEFT_KEY && key <= UP_KEY)
+	if (key >= LEFT_KEY && key <= RIGHT_KEY)
 	{
 		if (key == LEFT_KEY)
 			d->ha = cycle(d->ha - HA_DELTA, HA_MIN, HA_MAX);
 		else if (key == RIGHT_KEY)
 			d->ha = cycle(d->ha + HA_DELTA, HA_MIN, HA_MAX);
-		else if (key == UP_KEY)
-			d->va = clamp(d->va + VA_DELTA, VA_MIN, VA_MAX);
-		else if (key == DOWN_KEY)
-			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
-		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
 		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
 		return (0);
 	}
-	if (key == R_KEY || key == SHIFT_KEY || key == CTRL_KEY)
+	if (key >= DOWN_KEY && key <= UP_KEY)
+	{
+		if (key == UP_KEY)
+			d->va = clamp(d->va + VA_DELTA, VA_MIN, VA_MAX);
+		else if (key == DOWN_KEY)
+			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
+		if (is_data_equal(d, &ref))
+		{
+			printf("inside KEYS LEFT and RIGHT, old and new is equal, no render\n");
+			return (0);
+		}
+		mlx_clear_window(d->mlx_ptr, d->win_ptr);
+		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
+		return (0);
+	}
+	if (key == SHIFT_KEY || key == CTRL_KEY)
 	{
 		if (key == SHIFT_KEY)
 			d->scale = clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		else if (key == CTRL_KEY)
 			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
+		if (is_data_equal(d, &ref))
+		{
+			printf("inside KEYS SHIFT_KEY and CTRL_KEY, old and new is equal, no render\n");
+			return (0);
+		}
 		mlx_clear_window(d->mlx_ptr, d->win_ptr);
-		//draw_stuff(d->mlx_ptr, d->win_ptr, d->va, d->ha, d->scale);
-
-		//clock_t t0, t1;
-		//t0 = clock();
-
 		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
-
-		//t1 = clock() - t0;
-		//printf("(time: %f), drawn r, shift or ctrl\n", ((double)t1)/CLOCKS_PER_SEC);
-
 		return (0);
+	}
+	if (key == R_KEY)
+	{
+		mlx_clear_window(d->mlx_ptr, d->win_ptr);
+		draw_parallel(d->mlx_ptr, d->win_ptr, d->points, d->va, d->ha, d->scale);
 	}
 	if (key == ESC_KEY)
 	{
@@ -103,24 +132,13 @@ int		main(int argc, char **argv)
 
 	if (argc == 2)
 	{
-		//char * filename = argv[1];
-		printf("%s\n", argv[1]);
-		//int line_len = 0;
-
-		clock_t t0, t1;
-		t0 = clock();
-
-		t_point *** points = read_points(argv[1]);
-
-		t1 = clock() - t0;
-		printf("(time: %f), read_points: %d, %d\n", ((double)t1)/CLOCKS_PER_SEC, points == 0 ? -1 : 1, (int) points);
-
-		d.points = points;
+		//t_point *** points = read_points(argv[1]);
+		d.points = read_points(argv[1]);
 		//d.line_len = line_len;
 
 //		//print_points(points);
 //		t0 = clock();
-		draw_parallel(mlx_ptr, win_ptr, points, d.va, d.ha, d.scale);
+		draw_parallel(mlx_ptr, win_ptr, d.points, d.va, d.ha, d.scale);
 //		t1 = clock() - t0;
 //		printf("(time: %f), drawn", ((double)t1)/CLOCKS_PER_SEC);
 		//print_points(points);

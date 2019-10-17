@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 18:45:53 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:01:40 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,13 @@ int		is_on_screen(t_point *a, t_point *b)
 	return (1);
 }
 
+void			clean_points_tree_ret_err(t_point ***points, t_node *btree_root)
+{
+	free_points(points);
+	free_btree(btree_root);
+	return ;
+}
+
 void		draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale)
 {
 	t_point		***new_points;
@@ -272,7 +279,8 @@ void		draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, 
 				tmp_for_btree.z = (tmp_for_btree.p1->z > tmp_for_btree.p2->z) ?
 						tmp_for_btree.p1->z : tmp_for_btree.p2->z;
 				if (is_line_on_screen(tmp_for_btree))
-					insert_line_in_btree(tmp_for_btree, &btree_root);
+					if (insert_line_in_btree(tmp_for_btree, &btree_root) < 0)
+						return (clean_points_tree_ret_err(new_points, btree_root));
 			}
 			if (i < line_num - 1)
 			{
@@ -280,7 +288,8 @@ void		draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, 
 				tmp_for_btree.z = (tmp_for_btree.p1->z > tmp_for_btree.p2->z) ?
 								  tmp_for_btree.p1->z : tmp_for_btree.p2->z;
 				if (is_line_on_screen(tmp_for_btree))
-					insert_line_in_btree(tmp_for_btree, &btree_root);
+					if (insert_line_in_btree(tmp_for_btree, &btree_root) < 0)
+						return (clean_points_tree_ret_err(new_points, btree_root));
 			}
 			j++;
 		}

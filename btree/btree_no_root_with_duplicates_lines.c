@@ -31,7 +31,7 @@ typedef struct		s_line
 }					t_line;
 
 /*
-** n		n < M, number of keys keys in node will always less than order of B tree
+** n		n < M, number of keys keys in node will always less than order of B tree1
 ** keys 	array of keys (lines)
 ** *p[M]	(n+1 pointers will be in use)
 */
@@ -74,7 +74,7 @@ int main() {
 	t_line	key;
 	//int key;
 	int choice;
-	printf("Creation of B tree for M=%d\n", M);
+	printf("Creation of B tree1 for M=%d\n", M);
 	while (1) {
 		printf("%p\n", root);
 		printf("1.Insert\n");
@@ -117,14 +117,14 @@ int main() {
 				inorder(root); putchar('\n');
 				break;
 //			case 7:
-//				printf("The total number of keys in this tree is:\n");
+//				printf("The total number of keys in this tree1 is:\n");
 //				printTotal(root);
 //				break;
 //			case 8:
 //				getMinMax(root);
 //				break;
 //			case 9:
-//				printf("The maximum level in this tree is:\n");
+//				printf("The maximum level in this tree1 is:\n");
 //				printMaxLevel(root);
 //				break;
 			default:
@@ -185,7 +185,7 @@ KeyStatus ins(t_node *ptr, t_line key, t_line *upKey, t_node **newnode) {
 	value = ins(ptr->p[pos], key, &newKey, &newPtr);
 	if (value != InsertIt)
 		return value;
-	/*If keys in node is less than M-1 where M is order of B tree*/
+	/*If keys in node is less than M-1 where M is order of B tree1*/
 	if (n < M - 1) {
 
 		//pos = searchPos(newKey, ptr->keys, n);
@@ -404,7 +404,7 @@ void eatline(void) {
 	while ((c = getchar()) != '\n');
 }
 
-/* Function to display each key in the tree in sorted order (in-order traversal)
+/* Function to display each key in the tree1 in sorted order (in-order traversal)
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 void inorder(t_node *ptr) {
@@ -451,7 +451,7 @@ void inorder(t_node *ptr) {
 	}
 }
 
-/* Function that returns the total number of keys in the tree.
+/* Function that returns the total number of keys in the tree1.
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 //int totalKeys(t_node *ptr) {
@@ -467,14 +467,14 @@ void inorder(t_node *ptr) {
 //	return 0;
 //}
 
-/* Function that prints the total number of keys in the tree.
+/* Function that prints the total number of keys in the tree1.
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 //void printTotal(t_node *ptr) {
 //	printf("%d\n", totalKeys(ptr));
 //}
 
-/* Function that returns the smallest key found in the tree.
+/* Function that returns the smallest key found in the tree1.
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 //int getMin(t_node *ptr) {
@@ -487,7 +487,7 @@ void inorder(t_node *ptr) {
 //	return 0;
 //}
 
-/* Function that returns the largest key found in the tree.
+/* Function that returns the largest key found in the tree1.
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 //int getMax(t_node *ptr) {
@@ -506,7 +506,7 @@ void inorder(t_node *ptr) {
 //	return 0;
 //}
 
-/* Function that prints the smallest and largest keys found in the tree.
+/* Function that prints the smallest and largest keys found in the tree1.
 @param struct node *ptr, the pointer to the node you are currently working with
 */
 //void getMinMax(t_node *ptr) {
@@ -543,10 +543,10 @@ void inorder(t_node *ptr) {
 //}
 //
 ///*Function that prints the maximum level in the tree.
-//@param struct node *ptr, the tree to find the maximum level for.
+//@param struct node *ptr, the tree1 to find the maximum level for.
 //*/
 //void printMaxLevel(t_node *ptr) {
 //	int max = maxLevel(ptr) - 1;
-//	if (max == -1) printf("tree is empty\n");
+//	if (max == -1) printf("tree1 is empty\n");
 //	else printf("%d\n", max);
 //}

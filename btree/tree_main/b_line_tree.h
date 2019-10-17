@@ -35,7 +35,7 @@ typedef struct		s_line
 
 /*
 ** n		n < M, number of keys keys in node
-** 			will always less than order of B tree
+** 			will always less than order of B tree1
 **
 ** keys 	array of keys (lines)
 ** *p[M]	(n+1 pointers will be in use)

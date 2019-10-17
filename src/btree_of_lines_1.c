@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 16:55:04 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 17:26:49 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 20:40:20 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ int				insert_line_in_btree(t_line key, t_node **root)
 		return (-1);
 	if ((value = ins(*root, key, &up_key, &newnode)) < 0)
 	{
-		clean(*root);
+		free_btree(*root);
 		return (-1);
 	}
 	if ((value == 1) && ((uproot = (*root)) != NULL || 1))
 	{
 		if ((*root = (t_node*)malloc(sizeof(t_node))) == NULL)
 		{
-			clean(uproot);
+			free_btree(uproot);
 			return (0);
 		}
 		(*root)->n = 1;
@@ -46,6 +46,13 @@ int				search_pos(t_line key, t_line *key_arr, int n)
 	int			pos;
 
 	pos = 0;
+	if (key.z < key_arr[n / 2].z)
+	{
+		while (pos < n && key.z >= key_arr[pos].z)
+			pos++;
+		return (pos);
+	}
+	pos = (n / 2);
 	while (pos < n && key.z >= key_arr[pos].z)
 		pos++;
 	return (pos);
@@ -101,7 +108,6 @@ int				func2(t_node *ptr, t_line key, t_node **l_ptr, t_line *last_key)
 
 int				ins(t_node *ptr, t_line key, t_line *up_key, t_node **newnode)
 {
-	//t_node		*new_ptr;
 	t_node		*last_ptr;
 	t_line		last_key;
 	int			pos;
@@ -109,10 +115,11 @@ int				ins(t_node *ptr, t_line key, t_line *up_key, t_node **newnode)
 
 	*newnode = (ptr == NULL) ? NULL : *newnode;
 	*up_key = (ptr == NULL) ? key : *up_key;
-	if ((ptr == NULL) || ((pos = (M - 1) / 2) < 0))
+	if (ptr == NULL)
 		return (1);
 	if ((i = func2(ptr, key, &last_ptr, &last_key)) != 3)
 		return (i);
+	(pos = (M - 1) / 2);
 	(*up_key) = ptr->keys[pos];
 	(*newnode) = (t_node*)malloc(sizeof(t_node));
 	ptr->n = pos;

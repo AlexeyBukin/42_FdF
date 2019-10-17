@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 16:54:58 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 18:06:44 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 19:00:06 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
 	}
 }
 
-void			clean(t_node *ptr)
+void			free_btree(t_node *ptr)
 {
 	int			i;
 
@@ -74,12 +74,12 @@ void			clean(t_node *ptr)
 			i = 0;
 			while (i < ptr->n)
 			{
-				clean(ptr->p[i]);
+				free_btree(ptr->p[i]);
 				i++;
 			}
 			if (ptr->n >= i)
 			{
-				clean(ptr->p[i]);
+				free_btree(ptr->p[i]);
 			}
 		}
 		free(ptr);
