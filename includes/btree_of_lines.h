@@ -6,32 +6,15 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 22:59:35 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 16:52:39 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 17:54:20 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef B_LINE_TREE_H
-# define B_LINE_TREE_H
+#ifndef B_TREE_OF_LINES_H
+# define B_TREE_OF_LINES_H
 
-# include <stdio.h>
-# include <stdlib.h>
-
-# define M 4
-
-typedef struct		s_point
-{
-	int				x;
-	int				y;
-	int				z;
-	int				col;
-}					t_point;
-
-typedef struct		s_line
-{
-	t_point			*p1;
-	t_point			*p2;
-	int				z;
-}					t_line;
+# include "fdf.h"
+# define M 10
 
 /*
 ** n		n < M, number of keys keys in node
@@ -48,30 +31,12 @@ typedef struct		s_node
 	struct s_node	*p[M];
 }					t_node;
 
-int					insert(t_line key, t_node **root);
+int					insert_line_in_btree(t_line key, t_node **root);
 int					ins(t_node *r, t_line x, t_line *y, t_node **u);
 void				clean(t_node *ptr);
 void				eatline(void);
 void				print_btree_in_order(t_node *ptr);
-void				draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node *ptr)
+
+void				draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr);
 
 #endif
-
-
-
-
-//if (n < M - 1)
-//{
-//pos = search_pos(new_key, ptr->keys, n);
-//i = n;												//n
-//while (i > pos)
-//{
-//ptr->keys[i] = ptr->keys[i - 1];
-//ptr->p[i + 1] = ptr->p[i];
-//i--;
-//}
-//ptr->keys[pos] = new_key;
-//ptr->p[pos + 1] = new_ptr;
-//++ptr->n;
-//return (status_success);
-//}

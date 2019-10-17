@@ -6,23 +6,24 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/14 20:01:42 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 17:24:40 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
-#define FDF_H
+# define FDF_H
 
-#include "mlx.h"
-#include "libft.h"
-#include "get_next_line.h"
-#include <stdio.h>
-#include <math.h>
+# include "mlx.h"
+# include "libft.h"
+# include "get_next_line.h"
 
-#include <time.h>
+# include <stdio.h>
+# include <math.h>
 
-#define MAX_BLEND 255
-#define MIN_BLEND 0
+# include <time.h>
+
+# define MAX_BLEND 255
+# define MIN_BLEND 0
 
 typedef struct		s_point
 {
@@ -79,5 +80,7 @@ void				draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va
 void				insert_line(t_line **start, t_line *new);
 void				add_line(t_line **start, t_line *new);
 void				free_line_list(t_line *list);
+
+# include "btree_of_lines.h"
 
 #endif
