@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   btree.c                                            :+:      :+:    :+:   */
+/*   btree_of_lines_1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/14 22:59:35 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/16 19:47:51 by kcharla          ###   ########.fr       */
+/*   Created: 2019/10/17 16:55:04 by kcharla           #+#    #+#             */
+/*   Updated: 2019/10/17 16:55:04 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,16 @@ int				insert(t_line key, t_node **root)
 	t_line		up_key;
 	int			value;
 
-	value = ins(*root, key, &up_key, &newnode);
-	if (value == 1)
+	if (root == NULL)
+		return (-1);
+	if ((value = ins(*root, key, &up_key, &newnode)) < 0)
 	{
-		uproot = (*root);
-		*root = (t_node*)malloc(sizeof(t_node));
-		if (*root == NULL)
+		clean(*root);
+		return (-1);
+	}
+	if ((value == 1) && ((uproot = (*root)) != NULL || 1))
+	{
+		if ((*root = (t_node*)malloc(sizeof(t_node))) == NULL)
 		{
 			clean(uproot);
 			return (0);
@@ -34,7 +38,7 @@ int				insert(t_line key, t_node **root)
 		(*root)->p[0] = uproot;
 		(*root)->p[1] = newnode;
 	}
-	return (value >= 0);
+	return (value);
 }
 
 int				search_pos(t_line key, t_line *key_arr, int n)
@@ -105,75 +109,21 @@ int				ins(t_node *ptr, t_line key, t_line *up_key, t_node **newnode)
 
 	*newnode = (ptr == NULL) ? NULL : *newnode;
 	*up_key = (ptr == NULL) ? key : *up_key;
-	if (ptr == NULL)
+	if ((ptr == NULL) || ((pos = (M - 1) / 2) < 0))
 		return (1);
-	i = func2(ptr, key, &last_ptr, &last_key);
-	if (i != 3)
+	if ((i = func2(ptr, key, &last_ptr, &last_key)) != 3)
 		return (i);
-	pos = (M - 1) / 2;
 	(*up_key) = ptr->keys[pos];
 	(*newnode) = (t_node*)malloc(sizeof(t_node));
 	ptr->n = pos;
 	(*newnode)->n = M - 1 - pos;
-	i = 0;
-	while (i < (*newnode)->n)
+	i = -1;
+	while (++i < (*newnode)->n)
 	{
+		(*newnode)->keys[i] = (i < (*newnode)->n - 1) ? ptr->keys[i + pos + 1]
+				: last_key;
 		(*newnode)->p[i] = ptr->p[i + pos + 1];
-		if (i < (*newnode)->n - 1)
-			(*newnode)->keys[i] = ptr->keys[i + pos + 1];
-		else
-			(*newnode)->keys[i] = last_key;
-		i++;
 	}
 	(*newnode)->p[(*newnode)->n] = last_ptr;
 	return (1);
-}
-
-void			inorder(t_node *ptr)
-{
-	static int	g_tabs;
-	int			t;
-	int			i;
-
-	g_tabs++;
-	if (ptr != 0)
-		if (ptr->n >= 1)
-		{
-			i = -1;
-			while (++i < ptr->n)
-			{
-				inorder(ptr->p[i]);
-				t = -1;
-				while (++t < g_tabs)
-					printf("\t");
-				printf("%d\n", ptr->keys[i].z);
-			}
-			if (ptr->n >= i)
-				inorder(ptr->p[i]);
-		}
-	free(ptr);
-	g_tabs--;
-}
-
-void			clean(t_node *ptr)
-{
-	int			i;
-
-	if (ptr != 0)
-	{
-		if (ptr->n >= 1)
-		{
-			i = 0;
-			while (i < ptr->n)
-			{
-				clean(ptr->p[i]);
-				i++;
-			}
-			if (ptr->n >= i)
-			{
-				clean(ptr->p[i]);
-			}
-		}
-		free(ptr);
-	}
 }

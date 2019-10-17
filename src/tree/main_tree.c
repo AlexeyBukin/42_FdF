@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 12:09:07 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/16 12:09:07 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/17 16:28:03 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ int				main(void)
 		else if (choice == 2)
 		{
 			printf("Btree in sorted order is:\n");
-			inorder(root);
-			root = NULL;
+			print_btree_in_order(root);
 			putchar('\n');
 		}
 		else if (choice == 3)
 		{
-			inorder(root);
+			clean(root);
 			return (0);
 		}
 		else if (choice == 4)

@@ -52,7 +52,7 @@ int					insert(t_line key, t_node **root);
 int					ins(t_node *r, t_line x, t_line *y, t_node **u);
 void				clean(t_node *ptr);
 void				eatline(void);
-void				inorder(t_node *ptr);
+void				print_btree_in_order(t_node *ptr);
 
 #endif
 
