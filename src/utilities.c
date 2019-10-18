@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:39:53 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/13 21:27:15 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 19:30:08 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,11 @@ int		blend(int c1, int c2, unsigned char val)
 	int	b;
 
 	t = (c2 & MASK_RED) >> 16;
-	r =  t + (((c1 & MASK_RED) >> 16) - t) * (val + 0.0) / MAX_BLEND;
-
+	r = t + (((c1 & MASK_RED) >> 16) - t) * (val + 0.0) / MAX_BLEND;
 	t = (c2 & MASK_GREEN) >> 8;
-	g =  t + (((c1 & MASK_GREEN) >> 8) - t) * (val + 0.0) / MAX_BLEND;
-
+	g = t + (((c1 & MASK_GREEN) >> 8) - t) * (val + 0.0) / MAX_BLEND;
 	t = (c2 & MASK_BLUE);
-	b =  t + ((c1 & MASK_BLUE) - t) * (val + 0.0) / MAX_BLEND;
-
+	b = t + ((c1 & MASK_BLUE) - t) * (val + 0.0) / MAX_BLEND;
 	t = ((int)(r << 16)) + ((int)(g << 8)) + b;
 	return (t);
 }
@@ -64,7 +61,8 @@ double	cycle(double val, double min, double max)
 
 int		atouhi(const char *str)
 {
-	int					i;
+	int			color;
+	int			i;
 
 	i = 0;
 	if (str[i] == '0')
@@ -73,7 +71,7 @@ int		atouhi(const char *str)
 		if (str[i] == 'x')
 		{
 			i++;
-			int color = ft_atoi_base(&(str[i]), 16);
+			color = ft_atoi_base(&(str[i]), 16);
 			printf("col: 0x%08x\n", color);
 			return (color);
 		}
