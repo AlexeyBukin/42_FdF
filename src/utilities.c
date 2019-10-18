@@ -16,6 +16,10 @@
 #define MASK_GREEN 0x0000FF00
 #define MASK_BLUE  0x000000FF
 
+/*
+** Function blends two colors by the given value
+*/
+
 int		blend(int c1, int c2, unsigned char val)
 {
 	int	t;
@@ -33,6 +37,10 @@ int		blend(int c1, int c2, unsigned char val)
 	return (t);
 }
 
+/*
+** Function that clamps value from min to max
+*/
+
 double	clamp(double val, double min, double max)
 {
 	if (val < min)
@@ -46,6 +54,10 @@ double	clamp(double val, double min, double max)
 	return (val);
 }
 
+/*
+** Function that loops value within min and max
+*/
+
 double	cycle(double val, double min, double max)
 {
 	while (val > max)
@@ -58,6 +70,12 @@ double	cycle(double val, double min, double max)
 	}
 	return (val);
 }
+
+/*
+** Function that converts c string
+** to unsigned hex integer
+** (basically to a color)
+*/
 
 int		atouhi(const char *str)
 {

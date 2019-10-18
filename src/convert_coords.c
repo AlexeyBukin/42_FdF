@@ -6,11 +6,17 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:24:13 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:35:13 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:38:50 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+** Function that converts coordinates
+** of one point from 'basic' to the ones with
+** vertical and horizontal angles
+*/
 
 void		convert_coords(t_point *f, double v_a, double h_a, int scale)
 {

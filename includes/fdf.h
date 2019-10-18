@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:27:04 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:59:57 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,7 @@ typedef struct		s_line
 {
 	t_point			*p1;
 	t_point			*p2;
-
 	int 			z;
-
-	struct s_line	*next;
-	struct s_line	*prev;
-
 }					t_line;
 
 typedef struct	s_data
@@ -74,20 +69,8 @@ void				convert_coords(t_point *f, double angle_vertical, double angle_horizonta
 ///___draw_simple_line.c
 void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 
-///___printables.c
-void				print_point(t_point p);
-void				print_points(t_point ***points);
-void				print_point_line(t_point **line);
-void				print_colors(t_point ***points);
-
 ///___test.c
-void				draw_stuff(void *mlx_ptr, void *win_ptr, double vert_angle, double hor_angle, int scale);
 void				draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale);
-
-///___line_list.c
-void				insert_line(t_line **start, t_line *new);
-void				add_line(t_line **start, t_line *new);
-void				free_line_list(t_line *list);
 
 # include "btree_of_lines.h"
 

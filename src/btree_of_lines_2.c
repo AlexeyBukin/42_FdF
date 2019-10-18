@@ -6,11 +6,16 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 16:54:58 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 19:00:06 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:29:08 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+** Function that draws lines and cleanf btree at the same time
+** (Should be called once with one btree)
+*/
 
 void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
 {
@@ -37,6 +42,10 @@ void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
 		}
 	}
 }
+
+/*
+** Function that 'frees' btree
+*/
 
 void			free_btree(t_node *ptr)
 {

@@ -6,11 +6,15 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 23:41:41 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:38:50 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:39:09 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+/*
+** Function that frees 2D null-terminated char array
+*/
 
 void	free_lines(char **lines)
 {
@@ -27,6 +31,10 @@ void	free_lines(char **lines)
 	free(lines);
 }
 
+/*
+** Function that frees 2D null-terminated t_point array
+*/
+
 void	free_point_line(t_point **point_line)
 {
 	int		i;
@@ -41,6 +49,10 @@ void	free_point_line(t_point **point_line)
 	}
 	free(point_line);
 }
+
+/*
+** Function that frees 3D null-terminated t_point array
+*/
 
 void	free_points(t_point ***points)
 {

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:26:42 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:54:43 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@
 #define SCALE_MAX 40
 #define SCALE_DELTA 1
 
+/*
+** Function that compares two t_data 'object'
+*/
+
 int		is_data_equal(const t_data *d1, const t_data *d2)
 {
 	int		res;
@@ -51,15 +55,12 @@ int		is_data_equal(const t_data *d1, const t_data *d2)
 	return (res);
 }
 
-int		key_pressed(int key, void *data)
-{
-	t_data	ref;
-	t_data	*d;
+/*
+** Function that handles arrows buttons
+*/
 
-	if (data == NULL)
-		return (-1);
-	d = (t_data *)data;
-	ref = *d;
+int		arrows_pressed(int key, t_data *d, t_data *ref)
+{
 	if (key >= LEFT_KEY && key <= RIGHT_KEY)
 	{
 		if (key == LEFT_KEY)
@@ -76,24 +77,49 @@ int		key_pressed(int key, void *data)
 			d->va = clamp(d->va + VA_DELTA, VA_MIN, VA_MAX);
 		else
 			d->va = clamp(d->va - VA_DELTA, VA_MIN, VA_MAX);
-		if (is_data_equal(d, &ref))
+		if (is_data_equal(d, ref))
 			return (0);
 		mlx_clear_window(d->mlx, d->win_ptr);
 		draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
 		return (0);
 	}
+	return (0);
+}
+
+/*
+** Function that handles shift and ctrl buttons
+*/
+
+int		shift_or_ctrl_pressed(int key, t_data *d, t_data *ref)
+{
+	if (key == SHIFT_KEY)
+		d->scale = clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX);
+	else
+		d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
+	if (is_data_equal(d, ref))
+		return (0);
+	mlx_clear_window(d->mlx, d->win_ptr);
+	draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
+	return (0);
+}
+
+/*
+** Function that handles key input
+*/
+
+int		key_pressed(int key, void *data)
+{
+	t_data	ref;
+	t_data	*d;
+
+	if (data == NULL)
+		return (-1);
+	d = (t_data *)data;
+	ref = *d;
+	if (key >= LEFT_KEY && key <= UP_KEY)
+		return (arrows_pressed(key, data, &ref));
 	if (key == SHIFT_KEY || key == CTRL_KEY)
-	{
-		if (key == SHIFT_KEY)
-			d->scale = clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX);
-		else
-			d->scale = clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
-		if (is_data_equal(d, &ref))
-			return (0);
-		mlx_clear_window(d->mlx, d->win_ptr);
-		draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
-		return (0);
-	}
+		return (shift_or_ctrl_pressed(key, data, &ref));
 	if (key == R_KEY)
 	{
 		mlx_clear_window(d->mlx, d->win_ptr);
@@ -103,6 +129,10 @@ int		key_pressed(int key, void *data)
 		exit(0);
 	return (0);
 }
+
+/*
+** Main function
+*/
 
 int		main(int argc, char **argv)
 {

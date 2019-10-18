@@ -12,6 +12,10 @@
 
 #include "get_next_line.h"
 
+/*
+** File borrowed from GNL project
+*/
+
 static int		get_last_buf(char **line, char **last_buf)
 {
 	char		*buf;

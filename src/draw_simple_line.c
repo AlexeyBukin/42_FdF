@@ -12,6 +12,10 @@
 
 #include "fdf.h"
 
+/*
+** Function that draws one simple line by x axis
+*/
+
 static void	draw_simple_line_x(void *m_p, void *w_p, t_point p1, t_point p2)
 {
 	t_point			d;
@@ -40,6 +44,10 @@ static void	draw_simple_line_x(void *m_p, void *w_p, t_point p1, t_point p2)
 	}
 }
 
+/*
+** Function that draws one simple line by y axis
+*/
+
 static void	draw_simple_line_y(void *m_p, void *w_p, t_point p1, t_point p2)
 {
 	t_point			d;
@@ -67,6 +75,10 @@ static void	draw_simple_line_y(void *m_p, void *w_p, t_point p1, t_point p2)
 		d.y++;
 	}
 }
+
+/*
+** Function that draws one simple line
+*/
 
 void		draw_simple_line(void *mlx_p, void *win_p, t_line l)
 {
