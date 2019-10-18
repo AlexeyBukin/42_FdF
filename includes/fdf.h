@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 17:24:40 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 23:27:04 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 # include "mlx.h"
 # include "libft.h"
 # include "get_next_line.h"
-
-# include <stdio.h>
 # include <math.h>
-
-# include <time.h>
 
 # define MAX_BLEND 255
 # define MIN_BLEND 0
+
+# define BOUND_X 1024
+# define BOUND_Y 1024
 
 typedef struct		s_point
 {
@@ -45,6 +44,16 @@ typedef struct		s_line
 
 }					t_line;
 
+typedef struct	s_data
+{
+	void		*mlx;
+	void		*win_ptr;
+	double		va;
+	double		ha;
+	int			scale;
+	t_point		***points;
+}				t_data;
+
 ///___read_file.c
 t_point				***read_points(char *file);
 
@@ -60,8 +69,7 @@ double				clamp(double val, double min, double max);
 double				cycle(double val, double min, double max);
 
 ///___convert_coords.c
-t_point				convert_coords(t_point f,  double vert_angle, double hor_angle, int scale);
-void				convert_coords_on_place(t_point *f, double angle_vertical, double angle_horizontal, int scale);
+void				convert_coords(t_point *f, double angle_vertical, double angle_horizontal, int scale);
 
 ///___draw_simple_line.c
 void				draw_simple_line(void *mlx_p, void *win_p, t_line line);

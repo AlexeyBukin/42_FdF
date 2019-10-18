@@ -72,7 +72,6 @@ int		atouhi(const char *str)
 		{
 			i++;
 			color = ft_atoi_base(&(str[i]), 16);
-			printf("col: 0x%08x\n", color);
 			return (color);
 		}
 	}

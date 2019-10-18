@@ -12,31 +12,6 @@
 
 #include "fdf.h"
 
-void			print_btree_in_order(t_node *ptr)
-{
-	static int	g_tabs;
-	int			t;
-	int			i;
-
-	g_tabs++;
-	if (ptr != 0)
-		if (ptr->n >= 1)
-		{
-			i = -1;
-			while (++i < ptr->n)
-			{
-				print_btree_in_order(ptr->p[i]);
-				t = -1;
-				while (++t < g_tabs)
-					printf("\t");
-				printf("%d\n", ptr->keys[i].z);
-			}
-			if (ptr->n >= i)
-				print_btree_in_order(ptr->p[i]);
-		}
-	g_tabs--;
-}
-
 void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
 {
 	int			i;

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 19:43:01 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/18 21:32:19 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,15 @@ static t_point	**read_point_line(int fd, int *max_z, int *line_len)
 	int			gnl_res;
 	int 		i;
 
-	line = 0;
 	gnl_res = get_next_line(fd, &line);
 	splitted = ft_strsplit(line, ' ');
-	if (gnl_res < 0 || splitted == 0)
+	if (gnl_res < 0 || splitted == 0 || (*line_len = 0))
 	{
 		free(line);
 		free_lines(splitted);
 		return (0);
 	}
-	*line_len = 0;
+	//*line_len = 0;
 	while (splitted[*line_len] != 0)
 		(*line_len)++;
 	point_line = (t_point**)malloc(sizeof(t_point *) * (*line_len + 1));
