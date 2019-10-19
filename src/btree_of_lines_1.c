@@ -12,6 +12,10 @@
 
 #include "fdf.h"
 
+/*
+** Function that inserts t_line (within t_node) in t_node btree
+*/
+
 int				insert_line_in_btree(t_line key, t_node **root)
 {
 	t_node		*uproot;
@@ -41,6 +45,10 @@ int				insert_line_in_btree(t_line key, t_node **root)
 	return (value);
 }
 
+/*
+** Function that search the position inside one node
+*/
+
 int				search_pos(t_line key, t_line *key_arr, int n)
 {
 	int			pos;
@@ -57,6 +65,10 @@ int				search_pos(t_line key, t_line *key_arr, int n)
 		pos++;
 	return (pos);
 }
+
+/*
+** Function that is a first part of ins() func
+*/
 
 int				func1(int n, t_line new_key, t_node *new_ptr, t_node *ptr)
 {
@@ -76,6 +88,10 @@ int				func1(int n, t_line new_key, t_node *new_ptr, t_node *ptr)
 	++ptr->n;
 	return (0);
 }
+
+/*
+** Function that is a second part of ins() func
+*/
 
 int				func2(t_node *ptr, t_line key, t_node **l_ptr, t_line *last_key)
 {
@@ -105,6 +121,11 @@ int				func2(t_node *ptr, t_line key, t_node **l_ptr, t_line *last_key)
 	}
 	return (3);
 }
+
+/*
+** Function that isserts t_node inside one t_node recursively
+** (uses func1 and func2 for norme reasons)
+*/
 
 int				ins(t_node *ptr, t_line key, t_line *up_key, t_node **newnode)
 {

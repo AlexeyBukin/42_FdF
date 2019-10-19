@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:59:57 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/19 11:20:27 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ typedef struct	s_data
 	int			scale;
 	t_point		***points;
 }				t_data;
+///___read_point_line.c
+t_point				**read_point_line(int fd, int *max_z, int *line_len);
 
 ///___read_file.c
-t_point				***read_points(char *file);
+t_point				***read_points(char *file, t_point ***pts, t_point ***new_pts, int fd);
 
 ///___free_funcs.c
 void				free_lines(char **lines);

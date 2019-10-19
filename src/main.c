@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:54:43 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/19 11:20:27 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,12 +147,18 @@ int		main(int argc, char **argv)
 	d.va = M_PI / 4;
 	d.ha = -1.0 * M_PI / 8;
 	d.scale = 20;
+	d.points = NULL;
 	if (argc == 2)
 	{
-		d.points = read_points(argv[1]);
-		draw_parallel(mlx, win_ptr, d.points, d.va, d.ha, d.scale);
-		mlx_key_hook(win_ptr, key_pressed, (void*)&d);
-		mlx_loop(mlx);
+		d.points = read_points(argv[1], d.points, d.points, d.scale);
+		if (d.points != 0)
+		{
+			draw_parallel(mlx, win_ptr, d.points, d.va, d.ha, d.scale);
+			mlx_key_hook(win_ptr, key_pressed, (void *)&d);
+			mlx_loop(mlx);
+		}
+		ft_putstr("error occurred while reading file\n");
+		return (0);
 	}
 	ft_putstr("usage: ./fdf file.fdf\n");
 	return (0);
