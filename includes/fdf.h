@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 11:20:27 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/19 17:18:35 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,12 @@ typedef struct	s_data
 	int			scale;
 	t_point		***points;
 }				t_data;
+
 ///___read_point_line.c
 t_point				**read_point_line(int fd, int *max_z, int *line_len);
 
 ///___read_file.c
-t_point				***read_points(char *file, t_point ***pts, t_point ***new_pts, int fd);
+t_point				***read_points(char *file, t_point ***pts, int fd);
 
 ///___free_funcs.c
 void				free_lines(char **lines);
@@ -72,7 +73,10 @@ void				convert_coords(t_point *f, double angle_vertical, double angle_horizonta
 void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 
 ///___test.c
-void				draw_parallel(void *mlx_ptr, void *win_ptr, t_point ***points, double va, double ha, int scale);
+void				draw_parallel(t_data *data);
+
+///___points_dup.c
+t_point				***points_dup(t_point ***points, int l_n, int line_len, int i);
 
 # include "btree_of_lines.h"
 

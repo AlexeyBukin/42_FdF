@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 11:20:27 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/19 17:19:37 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		arrows_pressed(int key, t_data *d, t_data *ref)
 		else if (key == RIGHT_KEY)
 			d->ha = cycle(d->ha + HA_DELTA, HA_MIN, HA_MAX);
 		mlx_clear_window(d->mlx, d->win_ptr);
-		draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
+		draw_parallel(d);
 		return (0);
 	}
 	if (key >= DOWN_KEY && key <= UP_KEY)
@@ -80,7 +80,7 @@ int		arrows_pressed(int key, t_data *d, t_data *ref)
 		if (is_data_equal(d, ref))
 			return (0);
 		mlx_clear_window(d->mlx, d->win_ptr);
-		draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
+		draw_parallel(d);
 		return (0);
 	}
 	return (0);
@@ -99,7 +99,7 @@ int		shift_or_ctrl_pressed(int key, t_data *d, t_data *ref)
 	if (is_data_equal(d, ref))
 		return (0);
 	mlx_clear_window(d->mlx, d->win_ptr);
-	draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
+	draw_parallel(d);
 	return (0);
 }
 
@@ -123,7 +123,7 @@ int		key_pressed(int key, void *data)
 	if (key == R_KEY)
 	{
 		mlx_clear_window(d->mlx, d->win_ptr);
-		draw_parallel(d->mlx, d->win_ptr, d->points, d->va, d->ha, d->scale);
+		draw_parallel(d);
 	}
 	if (key == ESC_KEY)
 		exit(0);
@@ -136,25 +136,24 @@ int		key_pressed(int key, void *data)
 
 int		main(int argc, char **argv)
 {
-	t_data		d;
+	t_data		data;
 	void		*mlx;
 	void		*win_ptr;
 
 	mlx = mlx_init();
 	win_ptr = mlx_new_window(mlx, BOUND_X, BOUND_Y, "FdF");
-	d.mlx = mlx;
-	d.win_ptr = win_ptr;
-	d.va = M_PI / 4;
-	d.ha = -1.0 * M_PI / 8;
-	d.scale = 20;
-	d.points = NULL;
-	if (argc == 2)
+	data.mlx = mlx;
+	data.win_ptr = win_ptr;
+	data.va = M_PI / 4;
+	data.ha = -1.0 * M_PI / 8;
+	data.scale = 20;
+	if (argc == 2 && (data.points = NULL) == NULL)
 	{
-		d.points = read_points(argv[1], d.points, d.points, d.scale);
-		if (d.points != 0)
+		data.points = read_points(argv[1], 0, data.scale);
+		if (data.points != 0)
 		{
-			draw_parallel(mlx, win_ptr, d.points, d.va, d.ha, d.scale);
-			mlx_key_hook(win_ptr, key_pressed, (void *)&d);
+			draw_parallel(&data);
+			mlx_key_hook(win_ptr, key_pressed, (void *)&data);
 			mlx_loop(mlx);
 		}
 		ft_putstr("error occurred while reading file\n");
