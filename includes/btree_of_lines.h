@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 22:59:35 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 19:40:48 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 19:56:23 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ typedef struct		s_node
 int					insert_line_in_btree(t_line key, t_node **root);
 int					ins(t_node *r, t_line x, t_line *y, t_node **u);
 void				free_btree(t_node *ptr);
-void				eatline(void);
-void				print_btree_in_order(t_node *ptr);
 
 void				draw_btree_in_order(void *mlx, void *win, t_node **ptr);
 

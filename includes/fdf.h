@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 19:58:13 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 21:53:39 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,31 @@
 
 # define BOUND_X 1024
 # define BOUND_Y 1024
+
+#define ESC_KEY 	53
+#define R_KEY   	15
+#define SCROLL_UP 	4
+#define SCROLL_DOWN 5
+
+#define SHIFT_KEY   257
+#define CTRL_KEY    256
+
+#define UP_KEY		126
+#define DOWN_KEY	125
+#define RIGHT_KEY	124
+#define LEFT_KEY	123
+
+#define HA_MIN 0
+#define HA_MAX (M_PI * 2)
+#define HA_DELTA (M_PI * 2 / 48)
+
+#define VA_MIN 0
+#define VA_MAX (M_PI / 2)
+#define VA_DELTA (M_PI / 2 / 8)
+
+#define SCALE_MIN 1
+#define SCALE_MAX 40
+#define SCALE_DELTA 1
 
 typedef struct		s_data
 {
@@ -55,5 +80,11 @@ void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
 void				draw_parallel(t_data *data);
 
 t_point				***points_dup(t_point ***points, int l_n, int len, int i);
+
+int					arrows_pressed(int key, t_data *d, t_data *ref);
+int					mouse_scrolled(int key, t_data *d, t_data *ref);
+int					shift_or_ctrl_pressed(int key, t_data *d, t_data *ref);
+
+int					is_data_equal(const t_data *d1, const t_data *d2);
 
 #endif
