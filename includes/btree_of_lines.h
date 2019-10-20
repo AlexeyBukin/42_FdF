@@ -6,12 +6,12 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/14 22:59:35 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/17 20:43:44 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 19:40:48 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef B_TREE_OF_LINES_H
-# define B_TREE_OF_LINES_H
+#ifndef BTREE_OF_LINES_H
+# define BTREE_OF_LINES_H
 
 # include "fdf.h"
 # define M 22
@@ -23,6 +23,21 @@
 ** keys 	array of keys (lines)
 ** *p[M]	(n+1 pointers will be in use)
 */
+
+typedef struct		s_point
+{
+	int				x;
+	int				y;
+	int				z;
+	int				col;
+}					t_point;
+
+typedef struct		s_line
+{
+	t_point			*p1;
+	t_point			*p2;
+	int				z;
+}					t_line;
 
 typedef struct		s_node
 {
@@ -37,6 +52,6 @@ void				free_btree(t_node *ptr);
 void				eatline(void);
 void				print_btree_in_order(t_node *ptr);
 
-void				draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr);
+void				draw_btree_in_order(void *mlx, void *win, t_node **ptr);
 
 #endif

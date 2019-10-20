@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 15:25:50 by kcharla           #+#    #+#             */
-/*   Updated: 2019/09/21 20:50:29 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 19:37:53 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,15 @@ int				get_next_line(const int fd, char **line)
 {
 	int				one_if_res;
 	int				val;
-	static char		last_bufs[255][BUFF_SIZE + 1];
+	static char		l_bs[255][BUFF_SIZE + 1];
 	char			*pointer;
 	char			buf[BUFF_SIZE + 1];
 
-	pointer = last_bufs[fd];
-	if (fd < 0 || fd > 65535 || line == 0 || (read(fd, last_bufs[fd], 0) < 0))
+	pointer = l_bs[(fd >= 0) ? fd : 0];
+	if (fd < 0 || fd > 65535 || line == 0 || (read(fd, pointer, 0) < 0))
 		return (-1);
 	if ((val = get_last_buf(line, &pointer)) != 0)
-		return (val + (ft_strcpy(last_bufs[fd], pointer) == 0));
+		return (val + (ft_strcpy(l_bs[fd], pointer) == 0));
 	while ((val = read(fd, buf, BUFF_SIZE)) > 0)
 	{
 		buf[val] = '\0';
@@ -92,7 +92,7 @@ int				get_next_line(const int fd, char **line)
 		else if (val < BUFF_SIZE)
 			return (1);
 	}
-	last_bufs[fd][0] = '\0';
+	l_bs[fd][0] = '\0';
 	if (*line == 0 || val < 0)
 		return (-1);
 	return ((ft_strcmp(*line, "") == 0) ? 0 : 1);
