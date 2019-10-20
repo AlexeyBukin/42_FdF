@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.14)
+project(libft C)
+set(CMAKE_C_STANDARD 99)
+aux_source_directory(. src_lib)
+include_directories(.)
+add_library(libft  ${src_lib})

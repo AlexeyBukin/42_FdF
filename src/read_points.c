@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 13:40:24 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 13:40:58 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void		adjust_points(t_point ***points, int len, int num, int max_z)
 		{
 			points[i][j]->x = (j - (len - 1) / 2) * 2 - shift_x;
 			points[i][j]->y = shared_y;
-			points[i][j]->z = max_z == 0 ? 0 : (int)round(
+			points[i][j]->z = (max_z == 0) ? 0 : (int)round(
 					(points[i][j]->z + 0.0) / max_z * MAX_HEIGHT_IN_TILES);
 			j++;
 		}
@@ -68,12 +68,11 @@ static int		inside_loop(t_point ****points, int *line_num, t_point **p_line)
 	return (1);
 }
 
-t_point			***read_points(char *file, t_point ***points, int fd)
+t_point			***read_points(char *file, t_point ***points, int fd, int max_z)
 {
 	t_point			**point_line;
 	int				line_num;
 	int				line_len;
-	int				max_z;
 	int				i;
 
 	fd = open(file, O_RDONLY);

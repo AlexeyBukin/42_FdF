@@ -53,7 +53,7 @@ typedef struct	s_data
 t_point				**read_point_line(int fd, int *max_z, int *line_len);
 
 ///___read_file.c
-t_point				***read_points(char *file, t_point ***pts, int fd);
+t_point				***read_points(char *file, t_point ***pts, int fd, int max_z);
 
 ///___free_funcs.c
 void				free_lines(char **lines);

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 14:10:49 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 17:59:58 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 13:42:30 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void			draw_parallel(t_data *d)
 	new_points = points_dup(d->points, 0, 0, -1);
 	if (new_points == NULL || (l_n = -1) != -1)
 		return ;
-	while (d->points[++l_n] != 0 && (l_l = -1) == -1)
-		while (d->points[l_n][++l_l] != 0)
+	while (new_points[++l_n] != 0 && (l_l = -1) == -1)
+		while (new_points[l_n][++l_l] != 0)
 			convert_coords(new_points[l_n][l_l], d->va, d->ha, d->scale);
 	btree_root = NULL;
 	line_len_and_num.x = l_n;

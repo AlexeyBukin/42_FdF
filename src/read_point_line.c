@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 11:31:06 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 13:36:20 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_point			**read_point_line(int fd, int *max_z, int *line_len)
 	int			gnl_res;
 	int			i;
 
-	*max_z = 0;
 	gnl_res = get_next_line(fd, &line);
 	splitted = ft_strsplit(line, ' ');
 	if (gnl_res < 0 || splitted == 0 || (*line_len = 0))

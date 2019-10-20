@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 17:19:37 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 13:40:58 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int		main(int argc, char **argv)
 	data.scale = 20;
 	if (argc == 2 && (data.points = NULL) == NULL)
 	{
-		data.points = read_points(argv[1], 0, data.scale);
+		data.points = read_points(argv[1], 0, 0, 0);
 		if (data.points != 0)
 		{
 			draw_parallel(&data);
