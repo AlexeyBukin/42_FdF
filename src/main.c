@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 22:16:41 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 22:32:55 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ int		on_key_pressed(int key, void *data)
 	ref = *d;
 	if (key >= LEFT_KEY && key <= UP_KEY)
 		return (arrows_pressed(key, data, &ref));
-//	if (key == SHIFT_KEY || key == CTRL_KEY)
-//		return (shift_or_ctrl_pressed(key, data, &ref));
 	if (key == R_KEY)
 	{
 		mlx_clear_window(d->mlx, d->win_ptr);
@@ -66,6 +64,21 @@ int		on_key_pressed(int key, void *data)
 	if (key == ESC_KEY)
 		exit(0);
 	return (0);
+}
+
+/*
+** Function that initialize data structure
+*/
+
+void	init_data(t_data *data, void *mlx, void *win)
+{
+	if (data == NULL)
+		return ;
+	data->mlx = mlx;
+	data->win_ptr = win;
+	data->va = M_PI / 4;
+	data->ha = -1.0 * M_PI / 8;
+	data->scale = 20;
 }
 
 /*
@@ -80,18 +93,13 @@ int		main(int argc, char **argv)
 
 	mlx = mlx_init();
 	win_ptr = mlx_new_window(mlx, BOUND_X, BOUND_Y, "FdF");
-	data.mlx = mlx;
-	data.win_ptr = win_ptr;
-	data.va = M_PI / 4;
-	data.ha = -1.0 * M_PI / 8;
-	data.scale = 20;
+	init_data(&data, mlx, win_ptr);
 	if (argc == 2)
 	{
 		data.points = read_points(argv[1], 0, 0, 0);
 		if (data.points != NULL)
 		{
 			draw_parallel(&data);
-
 			mlx_hook(win_ptr, 17, 0, close_on_x, (void *)&data);
 			mlx_hook(win_ptr, 2, 0, on_key_pressed, (void *)&data);
 			mlx_hook(win_ptr, 4, 0, on_mouse_scrolled, (void *)&data);

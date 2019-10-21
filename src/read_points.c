@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 13:40:58 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/21 18:47:29 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static void		adjust_points(t_point ***points, int len, int num, int max_z)
 
 static void		*return_null(t_point **p_line, t_point ***pts)
 {
-	free_points(pts);
-	free_point_line(p_line);
+	(void)pts;
+	(void)p_line;
 	return (NULL);
 }
 
@@ -77,12 +77,12 @@ t_point			***read_points(char *file, t_point ***points, int fd, int max_z)
 
 	fd = open(file, O_RDONLY);
 	points = (t_point***)malloc(sizeof(t_point**) * 2);
-	point_line = read_point_line(fd, &max_z, &line_len);
+	point_line = read_point_line(fd, &max_z, &line_len, NULL);
 	if (points == 0 || point_line == 0 || line_len <= 0 || (line_num = 1) != 1)
 		return (return_null(point_line, points));
 	points[0] = point_line;
 	points[1] = 0;
-	while ((point_line = read_point_line(fd, &max_z, &i)) != 0 && i > 0)
+	while ((point_line = read_point_line(fd, &max_z, &i, NULL)) != 0 && i > 0)
 	{
 		if (i != line_len)
 			return (return_null(point_line, points));

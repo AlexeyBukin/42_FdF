@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/20 22:02:22 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 22:17:31 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/20 22:21:17 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ int		mouse_scrolled(int key, t_data *d, t_data *ref)
 	if (key == SCROLL_UP || key == SCROLL_DOWN)
 	{
 		if (key == SCROLL_UP)
-			d->scale = (int) round(clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX));
+			d->scale = (int)clamp(d->scale + SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		else
-			d->scale = (int) round(clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX));
+			d->scale = (int)clamp(d->scale - SCALE_DELTA, SCALE_MIN, SCALE_MAX);
 		if (is_data_equal(d, ref))
 			return (-1);
 		mlx_clear_window(d->mlx, d->win_ptr);
@@ -67,7 +67,3 @@ int		mouse_scrolled(int key, t_data *d, t_data *ref)
 	}
 	return (-1);
 }
-
-
-
-

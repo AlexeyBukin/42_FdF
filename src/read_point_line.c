@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:49:48 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 13:36:20 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/21 18:45:54 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,15 @@ static void		*return_null(char *line, char **splitted, int *l_l, int l_l_v)
 	return (NULL);
 }
 
-t_point			**read_point_line(int fd, int *max_z, int *line_len)
+t_point			**read_point_line(int fd, int *max_z, int *line_len, char *line)
 {
 	t_point		**p_line;
 	char		**splitted;
-	char		*line;
 	int			gnl_res;
 	int			i;
 
 	gnl_res = get_next_line(fd, &line);
-	splitted = ft_strsplit(line, ' ');
+	splitted = ft_strsplit(line == 0 ? "" : line, ' ');
 	if (gnl_res < 0 || splitted == 0 || (*line_len = 0))
 		return (return_null(line, splitted, line_len, -1));
 	while (splitted[*line_len] != 0)

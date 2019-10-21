@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 21:53:39 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/21 18:50:42 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,27 @@
 # define BOUND_X 1024
 # define BOUND_Y 1024
 
-#define ESC_KEY 	53
-#define R_KEY   	15
-#define SCROLL_UP 	4
-#define SCROLL_DOWN 5
+# define ESC_KEY 	53
+# define R_KEY   	15
+# define SCROLL_UP 	4
+# define SCROLL_DOWN 5
 
-#define SHIFT_KEY   257
-#define CTRL_KEY    256
+# define UP_KEY		126
+# define DOWN_KEY	125
+# define RIGHT_KEY	124
+# define LEFT_KEY	123
 
-#define UP_KEY		126
-#define DOWN_KEY	125
-#define RIGHT_KEY	124
-#define LEFT_KEY	123
+# define HA_MIN 0
+# define HA_MAX (M_PI * 2)
+# define HA_DELTA (M_PI * 2 / 48)
 
-#define HA_MIN 0
-#define HA_MAX (M_PI * 2)
-#define HA_DELTA (M_PI * 2 / 48)
+# define VA_MIN 0
+# define VA_MAX (M_PI / 2)
+# define VA_DELTA (M_PI / 2 / 8)
 
-#define VA_MIN 0
-#define VA_MAX (M_PI / 2)
-#define VA_DELTA (M_PI / 2 / 8)
-
-#define SCALE_MIN 1
-#define SCALE_MAX 40
-#define SCALE_DELTA 1
+# define SCALE_MIN 1
+# define SCALE_MAX 40
+# define SCALE_DELTA 1
 
 typedef struct		s_data
 {
@@ -60,7 +57,7 @@ typedef struct		s_data
 	t_point			***points;
 }					t_data;
 
-t_point				**read_point_line(int fd, int *max_z, int *line_len);
+t_point				**read_point_line(int fd, int *m_z, int *l_len, char *l);
 
 t_point				***read_points(char *f, t_point ***pts, int fd, int m_z);
 
