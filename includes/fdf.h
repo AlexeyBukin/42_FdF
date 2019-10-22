@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 15:57:38 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 17:14:19 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # define ESC_KEY 	53
 # define R_KEY   	15
 
-# define SHIFT_KEY 257
-# define CTRL_KEY 256
-# define SCROLL_UP 	4
+# define E_KEY	    14
+# define Q_KEY	    12
+
+# define SCROLL_UP 	 4
 # define SCROLL_DOWN 5
 
 # define UP_KEY		126
@@ -64,6 +65,10 @@
 # define SCALE_MAX 40
 # define SCALE_DELTA 1
 
+# define HEIGHT_MIN  -10
+# define HEIGHT_MAX   10
+# define HEIGHT_DELTA 0.2
+
 typedef struct		s_point
 {
 	int				x;
@@ -88,6 +93,7 @@ typedef struct		s_data
 	double			va;
 	double			ha;
 	int				scale;
+	double 			h;
 	t_point			***points;
 }					t_data;
 
@@ -104,7 +110,7 @@ int					blend(int c1, int c2, unsigned char val);
 double				clamp(double val, double min, double max);
 double				cycle(double val, double min, double max);
 
-void				convert_coords(t_point *f, double a_v, double a_h, int s);
+void				convert_coords(t_point *f, double a_v, double a_h, int s, double h);
 
 void				draw_simple_line(t_data *data, t_line line);
 

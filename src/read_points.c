@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-#define MAX_HEIGHT_IN_TILES 60.0
+#define MAX_HEIGHT_IN_TILES 10.0
 
 static void		adjust_points(t_point ***points, int len, int num, int max_z)
 {

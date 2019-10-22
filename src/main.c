@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 16:24:46 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 16:53:11 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ int		on_key_pressed(int key, void *data)
 	if (num_keys_pressed(key, data, &ref) >= 0)
 		return (0);
 	if (key == R_KEY)
-	{
-		mlx_clear_window(d->mlx, d->win);
 		draw_parallel(d);
-	}
 	if (key == ESC_KEY)
 		exit(0);
 	return (0);
@@ -93,11 +90,10 @@ int		init_data(t_data *data)
 	data->win = mlx_new_window(data->mlx, BOUND_X, BOUND_Y, "FdF");
 	data->img = mlx_new_image(data->mlx, BOUND_X, BOUND_Y);
 	data->img_adr = mlx_get_data_addr(data->img, &bps, &size_line, &endian);
-	printf("size_line: %d, endian: %d, bits_per_pixel: %d\n", size_line, endian, bps);
-
 	data->va = M_PI / 4;
 	data->ha = -1.0 * M_PI / 8;
 	data->scale = 20;
+	data->h = 1;
 	if (data->mlx == NULL || data->win == NULL)
 		return (-1);
 	if (data->img == NULL || data->img_adr == NULL)

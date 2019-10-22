@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:29 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 15:04:40 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:08:10 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,7 @@ static void	draw_simple_line_x(t_data *data, t_point p1, t_point p2)
 	while (d.x <= p2.x)
 	{
 		blend_step = (d.x - p1.x) * MAX_BLEND / (p2.x - p1.x);
-		//mlx_pixel_put(data->mlx, data->win, d.x, d.y, blend(p2.col, p1.col, blend_step));
-		///
-//		if (d.y < 50){
-//			ft_putstr(ft_itoa(d.y));
-//			ft_putstr("\n");
-//		}
-
 		img_pixel_put(data, d.x, d.y, blend(p2.col, p1.col, blend_step));
-		///
 		d.z += p1.z;
 		if (2 * d.z >= p2.z)
 		{
@@ -73,14 +65,7 @@ static void	draw_simple_line_y(t_data *data, t_point p1, t_point p2)
 	while (d.y <= p2.y)
 	{
 		blend_step = (((d.y - p1.y) * MAX_BLEND / (p2.y - p1.y)));
-		//mlx_pixel_put(data->mlx, data->win, d.x, d.y, blend(p2.col, p1.col, blend_step));
-		///
-//		if (d.y < 50){
-//			ft_putstr(ft_itoa(d.y));
-//			ft_putstr("\n");
-//		}
 		img_pixel_put(data, d.x, d.y, blend(p2.col, p1.col, blend_step));
-		///
 		d.z += p1.z;
 		if (2 * d.z >= p2.z)
 		{

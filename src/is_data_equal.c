@@ -29,5 +29,6 @@ int		is_data_equal(const t_data *d1, const t_data *d2)
 	res = (d1->va == d2->va);
 	res = res && (d1->ha == d2->ha);
 	res = res && (d1->scale == d2->scale);
+	res = res && (d1->h == d2->h);
 	return (res);
 }

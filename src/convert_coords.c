@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:24:13 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/19 18:10:33 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 16:51:07 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,16 @@
 ** vertical and horizontal angles
 */
 
-void		convert_coords(t_point *f, double v_a, double h_a, int scale)
+void	convert_coords(t_point *f, double v_a, double h_a, int scale, double h)
 {
 	t_point		v;
 	int			x0;
 	int			y0;
-	double		z_size;
 	double		radius;
 
 	x0 = BOUND_X / 2;
 	y0 = BOUND_Y / 2;
-	z_size = (scale + 0.0) * cos(v_a);
+	h = (scale + 0.0) * cos(v_a) * h;
 	v.x = f->x * scale;
 	v.y = f->y * scale;
 	radius = v.x * v.x + v.y * v.y;
@@ -37,7 +36,7 @@ void		convert_coords(t_point *f, double v_a, double h_a, int scale)
 	v.y = round(sin(v_a) * radius *
 			sin(atan2(f->y, f->x) + h_a));
 	v.z = v.y;
-	v.y = y0 + v.y - round(f->z * z_size);
+	v.y = y0 + v.y - round(f->z * h);
 	f->x = v.x;
 	f->y = v.y;
 	f->z = v.z;
