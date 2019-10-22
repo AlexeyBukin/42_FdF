@@ -19,8 +19,9 @@ FRAMEWORKS = -framework OpenGL -framework AppKit
 
 #ls *.c
 C_FILES_LIST = convert_coords.c draw_simple_line.c free_funcs.c get_next_line.c main.c \
-read_points.c test.c utilities.c btree_of_lines_1.c is_data_equal.c \
+read_points.c draw_parallel.c utilities.c btree_of_lines_1.c is_data_equal.c \
 btree_of_lines_2.c read_point_line.c points_dup.c event_handle.c \
+img_pixel_put.c \
 
 
 C_FILES	= $(addprefix $(C_DIR), $(C_FILES_LIST))

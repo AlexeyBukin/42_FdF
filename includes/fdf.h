@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/21 18:50:42 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 15:57:38 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include "libft.h"
 # include "get_next_line.h"
 # include <math.h>
-# include "btree_of_lines.h"
 
 # define MAX_BLEND 255
 # define MIN_BLEND 0
@@ -27,6 +26,9 @@
 
 # define ESC_KEY 	53
 # define R_KEY   	15
+
+# define SHIFT_KEY 257
+# define CTRL_KEY 256
 # define SCROLL_UP 	4
 # define SCROLL_DOWN 5
 
@@ -34,6 +36,21 @@
 # define DOWN_KEY	125
 # define RIGHT_KEY	124
 # define LEFT_KEY	123
+
+# define W_KEY	13
+# define A_KEY	0
+# define S_KEY	1
+# define D_KEY	2
+
+# define NUM_1_KEY	18
+# define NUM_2_KEY	19
+# define NUM_3_KEY	20
+# define NUM_4_KEY	21
+# define NUM_5_KEY	23
+
+# define MASK_RED   0x00FF0000
+# define MASK_GREEN 0x0000FF00
+# define MASK_BLUE  0x000000FF
 
 # define HA_MIN 0
 # define HA_MAX (M_PI * 2)
@@ -47,10 +64,27 @@
 # define SCALE_MAX 40
 # define SCALE_DELTA 1
 
+typedef struct		s_point
+{
+	int				x;
+	int				y;
+	int				z;
+	int				col;
+}					t_point;
+
+typedef struct		s_line
+{
+	t_point			*p1;
+	t_point			*p2;
+	int				z;
+}					t_line;
+
 typedef struct		s_data
 {
 	void			*mlx;
-	void			*win_ptr;
+	void			*win;
+	void			*img;
+	char			*img_adr;
 	double			va;
 	double			ha;
 	int				scale;
@@ -72,16 +106,44 @@ double				cycle(double val, double min, double max);
 
 void				convert_coords(t_point *f, double a_v, double a_h, int s);
 
-void				draw_simple_line(void *mlx_p, void *win_p, t_line line);
+void				draw_simple_line(t_data *data, t_line line);
 
 void				draw_parallel(t_data *data);
 
 t_point				***points_dup(t_point ***points, int l_n, int len, int i);
 
 int					arrows_pressed(int key, t_data *d, t_data *ref);
+int					wasd_pressed(int key, t_data *d, t_data *ref);
 int					mouse_scrolled(int key, t_data *d, t_data *ref);
 int					shift_or_ctrl_pressed(int key, t_data *d, t_data *ref);
+int					num_keys_pressed(int key, t_data *d, t_data *ref);
 
 int					is_data_equal(const t_data *d1, const t_data *d2);
+
+int					img_pixel_put(t_data *data, int x, int y, int col);
+int					img_clear(t_data *data);
+
+/*
+** n		n < M, number of keys keys in node
+** 			will always less than order of B tree1
+**
+** keys 	array of keys (lines)
+** *p[M]	(n+1 pointers will be in use)
+*/
+
+# define M 22
+
+typedef struct		s_node
+{
+	int				n;
+	t_line			keys[M - 1];
+	struct s_node	*p[M];
+}					t_node;
+
+int					insert_line_in_btree(t_line key, t_node **root);
+int					ins(t_node *r, t_line x, t_line *y, t_node **u);
+void				free_btree(t_node *ptr);
+
+void				draw_btree_in_order(t_data *data, t_node **ptr);
 
 #endif

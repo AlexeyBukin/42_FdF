@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/20 22:32:55 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 16:24:46 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,17 @@ int		on_key_pressed(int key, void *data)
 		return (-1);
 	d = (t_data *)data;
 	ref = *d;
-	if (key >= LEFT_KEY && key <= UP_KEY)
-		return (arrows_pressed(key, data, &ref));
+	if (arrows_pressed(key, data, &ref) >= 0)
+		return (0);
+	if (wasd_pressed(key, data, &ref) >= 0)
+		return (0);
+	if (shift_or_ctrl_pressed(key, data, &ref) >= 0)
+		return (0);
+	if (num_keys_pressed(key, data, &ref) >= 0)
+		return (0);
 	if (key == R_KEY)
 	{
-		mlx_clear_window(d->mlx, d->win_ptr);
+		mlx_clear_window(d->mlx, d->win);
 		draw_parallel(d);
 	}
 	if (key == ESC_KEY)
@@ -70,15 +76,33 @@ int		on_key_pressed(int key, void *data)
 ** Function that initialize data structure
 */
 
-void	init_data(t_data *data, void *mlx, void *win)
+#include <stdio.h>
+
+int		init_data(t_data *data)
 {
+	int 	endian;
+	int 	size_line;
+	int 	bps;
+
 	if (data == NULL)
-		return ;
-	data->mlx = mlx;
-	data->win_ptr = win;
+		return (-1);
+	endian = 0;
+	size_line = 0;
+	bps = 0;
+	data->mlx = mlx_init();
+	data->win = mlx_new_window(data->mlx, BOUND_X, BOUND_Y, "FdF");
+	data->img = mlx_new_image(data->mlx, BOUND_X, BOUND_Y);
+	data->img_adr = mlx_get_data_addr(data->img, &bps, &size_line, &endian);
+	printf("size_line: %d, endian: %d, bits_per_pixel: %d\n", size_line, endian, bps);
+
 	data->va = M_PI / 4;
 	data->ha = -1.0 * M_PI / 8;
 	data->scale = 20;
+	if (data->mlx == NULL || data->win == NULL)
+		return (-1);
+	if (data->img == NULL || data->img_adr == NULL)
+		return (-2);
+	return (0);
 }
 
 /*
@@ -88,22 +112,22 @@ void	init_data(t_data *data, void *mlx, void *win)
 int		main(int argc, char **argv)
 {
 	t_data		data;
-	void		*mlx;
-	void		*win_ptr;
 
-	mlx = mlx_init();
-	win_ptr = mlx_new_window(mlx, BOUND_X, BOUND_Y, "FdF");
-	init_data(&data, mlx, win_ptr);
+	if (init_data(&data) < 0)
+	{
+		ft_putstr("failed to init, exit...\n");
+		return (-1);
+	}
 	if (argc == 2)
 	{
 		data.points = read_points(argv[1], 0, 0, 0);
 		if (data.points != NULL)
 		{
 			draw_parallel(&data);
-			mlx_hook(win_ptr, 17, 0, close_on_x, (void *)&data);
-			mlx_hook(win_ptr, 2, 0, on_key_pressed, (void *)&data);
-			mlx_hook(win_ptr, 4, 0, on_mouse_scrolled, (void *)&data);
-			mlx_loop(mlx);
+			mlx_hook(data.win, 17, 0, close_on_x, (void *)&data);
+			mlx_hook(data.win, 2, 0, on_key_pressed, (void *)&data);
+			mlx_hook(data.win, 4, 0, on_mouse_scrolled, (void *)&data);
+			mlx_loop(data.mlx);
 		}
 		ft_putstr("error occurred while reading file\n");
 		return (0);

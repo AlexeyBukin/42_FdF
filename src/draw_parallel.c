@@ -79,6 +79,13 @@ void			draw_parallel(t_data *d)
 	line_len_and_num.x = l_n;
 	line_len_and_num.y = l_l;
 	add_lines(new_points, &btree_root, line_len_and_num, -1);
-	draw_btree_in_order(d->mlx, d->win_ptr, &btree_root);
+
+	img_clear(d);
+	draw_btree_in_order(d, &btree_root);
+	mlx_clear_window(d->mlx, d->win);
+	mlx_put_image_to_window(d->mlx, d->win, d->img, 0, 0);
+
+
+	//draw_btree_in_order(d, &btree_root);
 	free_points(new_points);
 }

@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 16:54:58 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 23:29:08 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/21 20:26:31 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 ** (Should be called once with one btree)
 */
 
-void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
+void			draw_btree_in_order(t_data *data, t_node **ptr)
 {
 	int			i;
 
@@ -30,12 +30,12 @@ void			draw_btree_in_order(void *mlx_ptr, void *win_ptr, t_node **ptr)
 				i = 0;
 				while (i < (*ptr)->n)
 				{
-					draw_btree_in_order(mlx_ptr, win_ptr, &((*ptr)->p[i]));
-					draw_simple_line(mlx_ptr, win_ptr, (*ptr)->keys[i]);
+					draw_btree_in_order(data, &((*ptr)->p[i]));
+					draw_simple_line(data, (*ptr)->keys[i]);
 					i++;
 				}
 				if ((*ptr)->n >= i)
-					draw_btree_in_order(mlx_ptr, win_ptr, &((*ptr)->p[i]));
+					draw_btree_in_order(data, &((*ptr)->p[i]));
 			}
 			free(*ptr);
 			*ptr = 0;

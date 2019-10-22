@@ -6,15 +6,11 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 05:39:53 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/18 19:30:08 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/22 14:03:15 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-#define MASK_RED   0x00FF0000
-#define MASK_GREEN 0x0000FF00
-#define MASK_BLUE  0x000000FF
 
 /*
 ** Function blends two colors by the given value
