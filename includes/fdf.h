@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:46 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 17:14:19 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/29 16:24:34 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ typedef struct		s_data
 	double			va;
 	double			ha;
 	int				scale;
-	double 			h;
+	double			h;
 	t_point			***points;
 }					t_data;
 
@@ -110,7 +110,7 @@ int					blend(int c1, int c2, unsigned char val);
 double				clamp(double val, double min, double max);
 double				cycle(double val, double min, double max);
 
-void				convert_coords(t_point *f, double a_v, double a_h, int s, double h);
+void				convert_coords(t_point *f, t_data *data, double height);
 
 void				draw_simple_line(t_data *data, t_line line);
 

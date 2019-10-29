@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/12 02:24:13 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 16:51:07 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/29 16:24:34 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 ** vertical and horizontal angles
 */
 
-void	convert_coords(t_point *f, double v_a, double h_a, int scale, double h)
+void	convert_coords(t_point *f, t_data *d, double h)
 {
 	t_point		v;
 	int			x0;
@@ -27,14 +27,14 @@ void	convert_coords(t_point *f, double v_a, double h_a, int scale, double h)
 
 	x0 = BOUND_X / 2;
 	y0 = BOUND_Y / 2;
-	h = (scale + 0.0) * cos(v_a) * h;
-	v.x = f->x * scale;
-	v.y = f->y * scale;
+	h = (d->scale + 0.0) * cos(d->va) * h;
+	v.x = f->x * d->scale;
+	v.y = f->y * d->scale;
 	radius = v.x * v.x + v.y * v.y;
 	radius = (radius <= 0) ? 0 : sqrt(radius);
-	v.x = x0 + round(radius * cos(atan2(f->y, f->x) + h_a));
-	v.y = round(sin(v_a) * radius *
-			sin(atan2(f->y, f->x) + h_a));
+	v.x = x0 + round(radius * cos(atan2(f->y, f->x) + d->ha));
+	v.y = round(sin(d->va) * radius *
+				sin(atan2(f->y, f->x) + d->ha));
 	v.z = v.y;
 	v.y = y0 + v.y - round(f->z * h);
 	f->x = v.x;

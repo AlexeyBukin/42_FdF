@@ -38,7 +38,7 @@ int		img_pixel_put(t_data *data, int x, int y, int col)
 
 int		img_clear(t_data *data)
 {
-	int 	i;
+	int		i;
 
 	if (data == NULL)
 		return (-1);

@@ -87,7 +87,7 @@ void		draw_simple_line(t_data *data, t_line l)
 	if ((l.p2->x) == (l.p1->x) && (l.p2->y) == (l.p1->y))
 		return ;
 	k = ((l.p2->x) == (l.p1->x)) ? 1 : ((l.p2->y) - (l.p1->y) + 0.0)
-									   / ((l.p2->x) - (l.p1->x) + 0.0);
+							/ ((l.p2->x) - (l.p1->x) + 0.0);
 	if (ft_abs(k) >= 1)
 		draw_simple_line_y(data, *(l.p1), *(l.p2));
 	else

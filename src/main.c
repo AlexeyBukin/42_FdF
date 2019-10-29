@@ -6,7 +6,7 @@
 /*   By: kcharla <kcharla@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 08:35:37 by kcharla           #+#    #+#             */
-/*   Updated: 2019/10/22 16:53:11 by kcharla          ###   ########.fr       */
+/*   Updated: 2019/10/29 16:16:52 by kcharla          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,11 @@ int		on_key_pressed(int key, void *data)
 ** Function that initialize data structure
 */
 
-#include <stdio.h>
-
 int		init_data(t_data *data)
 {
-	int 	endian;
-	int 	size_line;
-	int 	bps;
+	int		endian;
+	int		size_line;
+	int		bps;
 
 	if (data == NULL)
 		return (-1);
